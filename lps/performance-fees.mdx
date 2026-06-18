@@ -1,0 +1,61 @@
+---
+title: "Performance Fees & the High-Water Mark"
+sidebarTitle: "Performance Fees"
+description: "How fees are calculated, and why you're never charged twice on the same gain."
+---
+
+Hyro charges **no management fee** at launch. The performance fee is the only monetization model — and it's protected by a high-water mark with a per-LP cost basis.
+
+## The high-water mark (HWM)
+
+A performance fee is charged only on equity **above the prior peak**. Once a new peak is set, that becomes the new baseline. So the same gain is never taxed twice — if a vault rises, falls, and rises again, you only pay on net new profit above your previous high.
+
+## Per-LP cost basis
+
+Each LP's HWM is their **own entry NAV**. Two LPs who deposited at different times have different baselines, and each pays performance fees only on profit above their personal high. You're never charged for gains that happened before you deposited.
+
+## Two fee structures
+
+<Tabs>
+  <Tab title="Challenge Vault (fixed)">
+    For traders who came through the on-chain challenge path.
+
+    | | |
+    |---|---|
+    | Performance fee | **20% fixed**, HWM-protected |
+    | Fee split | 80% trader / 15% LPs (carry) / 5% protocol |
+    | LPs keep | Residual 80% of total profit |
+
+    **Worked example.** On $100 of profit at a 20% fee, $20 goes to the fee pool and you keep $80. Of that $20: the trader gets $16, LPs get $3 back as carry, the protocol gets $1. **Net: LPs $83, trader $16, protocol $1.**
+  </Tab>
+  <Tab title="Direct Vault (configurable)">
+    For verified external managers.
+
+    | | |
+    |---|---|
+    | Performance fee | **10–30%**, manager-configurable, HWM-protected |
+    | Fee split | 90% manager / 5% protocol / 5% insurance |
+    | LPs keep | Residual (100% − fee%) of total profit |
+
+    | Manager perf fee | Manager net | Protocol | Insurance | LPs keep |
+    |---|---|---|---|---|
+    | 10% | 9% | 0.5% | 0.5% | 90% |
+    | 20% | 18% | 1% | 1% | 80% |
+    | 30% | 27% | 1.5% | 1.5% | 70% |
+
+    The fee rate is visible to you as part of the vault's metadata before you deposit.
+  </Tab>
+</Tabs>
+
+## When fees crystallize
+
+Performance fees crystallize only at **realized events**, never on paper gains:
+
+- LP withdrawal
+- Monthly snapshot
+
+Once crystallized, the manager, protocol, and insurance shares can be claimed.
+
+<Tip>
+Because crystallization is tied to realized events and protected by your personal HWM, an unrealized swing up and back down doesn't cost you anything. You pay on net realized profit above your entry, full stop.
+</Tip>

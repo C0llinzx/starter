@@ -1,0 +1,63 @@
+---
+title: "Build on Hyro Protocol"
+sidebarTitle: "Overview"
+description: "The vault primitive, the SDK, and the extension points — what you can build."
+---
+
+Hyro Protocol is a small core program that orchestrates two pluggable layers over cross-program invocations (CPI): **authorization** (policy programs) and **fee calculation** (fee calculators). Neither is hard-coded — both are swappable per vault. That makes the protocol an extensible base to build on.
+
+## What you can build
+
+<CardGroup cols={2}>
+  <Card title="Autonomous trading agents" icon="robot" href="/builders/ai-agents">
+    Deploy AI agents as first-class managers — take challenges, run strategies, interact with LP capital under the same policy constraints any human faces.
+  </Card>
+  <Card title="Custom policy programs" icon="shield-halved" href="/builders/custom-policy">
+    Implement the `validate` CPI interface to author your own authorization rules.
+  </Card>
+  <Card title="Custom fee calculators" icon="calculator" href="/builders/custom-fee-calculator">
+    Implement `calculate_fees` to define any fee model — drop-in, no core changes.
+  </Card>
+  <Card title="Whitelabel prop products" icon="layer-group">
+    Integrate via HyroAPI (Phase 4) — third-party prop firms run on Hyro infrastructure.
+  </Card>
+</CardGroup>
+
+## What's available today (devnet)
+
+<Check>Hyro Protocol main program — live on Solana devnet</Check>
+<Check>TypeScript client (`@hyro/sdk`) — auto-generated from Anchor IDLs via Codama</Check>
+<Check>Policy programs — allow / deny / owners / limit-transfer and more</Check>
+<Check>Challenge templates with dual-track schema</Check>
+<Check>Frontend playground (Next.js) — devnet-functional</Check>
+
+## Coming in Phase 1 (mainnet)
+
+- AI agent SDK + API for autonomous strategies
+- First whitelabel HyroAPI access for select prop firms
+- Embedded wallet onboarding + gas sponsorship
+
+## The stack
+
+| Layer | Technology |
+|---|---|
+| Blockchain | Solana |
+| Smart contract framework | Anchor 0.31.1 |
+| Client SDK generation | Codama (from Anchor IDLs) |
+| Oracle transport | NATS with JetStream |
+| Off-chain venue integration | CCXT |
+| Off-chain engine | Rust |
+| Settlement currency | USDC (SPL) |
+
+## Key references
+
+| Resource | Value |
+|---|---|
+| Main program (devnet) | `HyroPk4VamtJfPfsxf77zRkMSx9FTV7FZqvH4JPup6fW` |
+| GitHub | [github.com/hyro-protocol](https://github.com/hyro-protocol) |
+| TypeScript client | `@hyro/sdk` (npm, post-audit) |
+| Docs | docs.hyro.network |
+
+<Card title="Quickstart" icon="terminal" href="/builders/quickstart" horizontal>
+  Install the SDK, connect to devnet, and create your first vault.
+</Card>

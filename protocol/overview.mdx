@@ -1,0 +1,69 @@
+---
+title: "What is Hyro Protocol?"
+sidebarTitle: "Overview"
+description: "Why on-chain prop trading exists, and what Hyro Protocol does differently."
+---
+
+Crypto prop trading lets traders manage firm capital in exchange for a share of profits. It's a real market — an estimated **$1–2 billion per year** in evaluation fees globally. But it's broken at the seams.
+
+## The problem
+
+<AccordionGroup>
+  <Accordion title="Refused payouts" icon="ban">
+    Prop firms have a documented record of denying payout requests for technical rule violations after the fact. There's no on-chain proof of solvency or payout history. Disputes are private and one-sided.
+  </Accordion>
+  <Accordion title="Rule changes mid-evaluation" icon="pen-to-square">
+    Challenge rules can change after a trader has paid the entry fee. Drawdown limits quietly tighten; profit targets quietly raise. The trader paid for one product and is now competing against another.
+  </Accordion>
+  <Accordion title="Opaque accounting" icon="eye-slash">
+    Traders and counterparties can't verify what positions the firm holds, who else is funded, or whether the firm is solvent. The MyForexFunds collapse of August 2023 was the canonical demonstration.
+  </Accordion>
+  <Accordion title="The hidden B-book conflict" icon="scale-unbalanced">
+    Most prop firms pay trader profits from challenge-fee revenue, not real trading. When a trader scales, that profit becomes the firm's expense — so the firm is structurally incentivized to remove successful traders.
+  </Accordion>
+  <Accordion title="Capped scale" icon="arrows-to-line">
+    Funded account size is limited by the firm's balance sheet — a ceiling the firm doesn't disclose. Top traders hit a wall not because of skill, but because the firm can't underwrite further size.
+  </Accordion>
+</AccordionGroup>
+
+## The answer
+
+Hyro Protocol settles every challenge, every payout, and every LP allocation on Solana.
+
+- **Rules are smart contracts** and cannot change mid-evaluation.
+- **Performance is verifiable** in real time.
+- **Payouts are automated** in USDC, each with a TXID anyone can check.
+- **Funded size scales with LP demand**, not the firm's balance sheet.
+
+Because real-capital vaults trade on real exchange order books, HyroTrader's revenue scales **with** trader success (volume rebates, protocol fees) — not against it. This is the structural difference versus traditional prop firms.
+
+## Two products
+
+<CardGroup cols={2}>
+  <Card title="Challenge Vault" icon="trophy" href="/traders/getting-started">
+    For traders without an existing track record. Pay an entry fee in USDC, trade under smart-contract rules, pass evaluation, get funded.
+  </Card>
+  <Card title="Direct Vault" icon="user-check" href="/traders/direct-vault">
+    For verified senior traders, funds, algo desks, and market makers. Track record substitutes for the challenge. Opens Phase 2 (Q1 2027).
+  </Card>
+</CardGroup>
+
+## Two sides of the marketplace
+
+| Side | Action | Result |
+|---|---|---|
+| **Trader** | Manages an on-chain vault funded by LP capital | Keeps 80–90% of profits, paid on-chain in USDC |
+| **LP** | Deposits USDC into a vault or pool | Earns carry on every payout the trader generates |
+| **Protocol** | Settles state, enforces rules, drives volume | Earns a share of performance fees, challenge fees, and volume rebates |
+
+## Beyond prop trading
+
+Crypto prop trading is the launch product — chosen because HyroTrader has five years of operational data to prove the model fastest. But Hyro Protocol is built as a **generalized on-chain vault primitive**. The same architecture that funds prop traders today is designed to support funds, asset managers, algorithmic trading desks, and market makers in later phases — without rebuilding the core.
+
+<Card title="Read the full thesis in the Whitepaper" icon="file-pdf" href="https://hyro.network/whitepaper.pdf" horizontal>
+  Market opportunity, technical architecture, token design, and the 2030 vision.
+</Card>
+
+<Info>
+This documentation is a practical guide for traders, LPs, and builders. It is **not** an offer to sell securities, a solicitation, or financial advice.
+</Info>

@@ -1,0 +1,82 @@
+---
+title: "FAQ"
+sidebarTitle: "FAQ"
+description: "Common questions, grouped by audience."
+---
+
+## For Traders
+
+<AccordionGroup>
+  <Accordion title="Can my challenge rules change after I pay?">
+    No. The rulebook version is pinned on-chain at purchase. Challenges bought under v1.0 are evaluated against v1.0 even after v1.1 ships. [Versioned rulebook →](/trust/rulebook)
+  </Accordion>
+  <Accordion title="What happens if I fail the evaluation?">
+    The demo is canceled and the evaluation fee is not refunded.
+  </Accordion>
+  <Accordion title="Do I lose my demo at +15%?">
+    No. The dual-track unlocks: your demo continues at Tier 2 (50/50 incremental) and a real-capital vault opens in parallel. [Dual-track →](/protocol/dual-track)
+  </Accordion>
+  <Accordion title="How do I receive a payout?">
+    Request via Phantom; USDC transfers from the payout vault to your wallet with a verifiable TXID. [Payouts →](/traders/payouts)
+  </Accordion>
+  <Accordion title="Do I need SOL for gas?">
+    No. Hyro sponsors all Solana gas for vault interactions, challenge purchases, and payouts.
+  </Accordion>
+</AccordionGroup>
+
+## For LPs
+
+<AccordionGroup>
+  <Accordion title="What am I depositing into?">
+    USDC into a trader's vault. You receive vault shares minted at the current NAV. [Deposit & withdraw →](/lps/depositing-withdrawing)
+  </Accordion>
+  <Accordion title="Can I see what the manager is trading?">
+    Depends on the vault's visibility mode. Aggregate metrics (NAV, AUM, DD, returns, fees, manager stake) are always public; live positions may be public, aggregate-only, or time-delayed. [Visibility →](/lps/vault-visibility)
+  </Accordion>
+  <Accordion title="When can I withdraw?">
+    After a ~48h timelock, plus any lockup period the manager set (up to 30 days). [Deposit & withdraw →](/lps/depositing-withdrawing)
+  </Accordion>
+  <Accordion title="Are my funds insured?">
+    Not at Phase 1. An insurance fund product arrives in Phase 3.
+  </Accordion>
+  <Accordion title="What are the fees?">
+    0% management fee. A performance fee only on realized profit above your personal high-water mark. [Performance fees →](/lps/performance-fees)
+  </Accordion>
+  <Accordion title="What's the biggest risk?">
+    The oracle is the single largest trust assumption in Phase 1 — NAV reporting depends on Hyro's infrastructure. This is disclosed plainly. [Risk →](/lps/risk)
+  </Accordion>
+</AccordionGroup>
+
+## For Builders
+
+<AccordionGroup>
+  <Accordion title="Is there an SDK?">
+    Yes — `@hyro/sdk`, auto-generated from Anchor IDLs via Codama. Publishes to npm post-audit. [Quickstart →](/builders/quickstart)
+  </Accordion>
+  <Accordion title="Can I build a custom policy?">
+    Yes — implement the single-instruction `validate` CPI interface. [Custom policy →](/builders/custom-policy)
+  </Accordion>
+  <Accordion title="Can I build a custom fee model?">
+    Yes — implement `calculate_fees` returning a `FeeCalculationOutput`. Drop-in, no core changes. [Custom fee calculator →](/builders/custom-fee-calculator)
+  </Accordion>
+  <Accordion title="Can I deploy an AI agent as a trader?">
+    Yes. Agents are first-class managers under the same policy and risk constraints as humans. SDK + API ship Phase 1. [AI agents →](/builders/ai-agents)
+  </Accordion>
+  <Accordion title="When does HyroAPI launch?">
+    Full B2B product in Phase 4. Early whitelabel access begins in Phase 1.
+  </Accordion>
+</AccordionGroup>
+
+## About the protocol
+
+<AccordionGroup>
+  <Accordion title="Is this live?">
+    Live on Solana devnet today. Mainnet beta targets October 2026.
+  </Accordion>
+  <Accordion title="Which chain and currency?">
+    Solana, settled in USDC.
+  </Accordion>
+  <Accordion title="Who's behind it?">
+    HyroTrader — the first crypto prop firm with native Bybit integration, operating since 2020, 30,000+ traders, $5M+ paid out.
+  </Accordion>
+</AccordionGroup>

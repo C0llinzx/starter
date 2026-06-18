@@ -1,0 +1,44 @@
+---
+title: "On-Chain Addresses"
+sidebarTitle: "Addresses"
+description: "Program IDs and key references for the protocol."
+---
+
+<Info>
+These are **devnet** addresses. The mainnet program ID is reserved post-launch (October 2026). Always verify against the official [GitHub](https://github.com/hyro-protocol) before integrating.
+</Info>
+
+## Core program
+
+| Resource | Address |
+|---|---|
+| Main program (devnet) | `HyroPk4VamtJfPfsxf77zRkMSx9FTV7FZqvH4JPup6fW` |
+
+## Policy programs
+
+| Policy | Program ID |
+|---|---|
+| `policy_owners` | `HyroXELvGkzBwgKz2Fsz2XEMDM6TYupZZ1A9qAtEM9Qs` |
+| `policy_limit_transfer` | `7tSgfcgnfsPjogCSHP5BDe48vWFRMDddaC5KtEgsGvxb` |
+| `policy_challenges` | `HyrowgoRRXfq1vwN5CTynd6keUAkm1kn2adRNqjTScwM` |
+| `policy_allow_any` | `xrs3my6WB4KNyc9g7H2LCKCmUXUFJydyr5Un9AFTD1t` |
+| `policy_deny_all` | `HmRxhUgc4rNR5dpzZvnBJYGUsL6a8w7keDr1hb8qAzCo` |
+| `policy_manager_access` | Live on devnet |
+| `policy_multisig` | Live on devnet |
+| `policy_withdrawal_window` | Live on devnet |
+
+## Wire discriminators
+
+| Constant | Value |
+|---|---|
+| `VALIDATE_DISCRIMINATOR` | `[60,252,90,66,246,253,232,139]` |
+| `CALCULATE_FEES_DISCRIMINATOR` | `[140,235,78,9,249,8,129,101]` |
+
+## Developer resources
+
+| Resource | Location |
+|---|---|
+| Documentation | docs.hyro.network |
+| GitHub | [github.com/hyro-protocol](https://github.com/hyro-protocol) |
+| TypeScript client | `@hyro/sdk` (npm, post-audit) |
+| Partnership inquiries | info@hyro.network |

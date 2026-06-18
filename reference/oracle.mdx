@@ -1,0 +1,49 @@
+---
+title: "Oracle Infrastructure"
+sidebarTitle: "Oracle"
+description: "How NAV gets from Bybit onto Solana, and the safety checks that guard it."
+---
+
+The oracle is a NATS-based message queue with JetStream. It reads Bybit sub-account equity and posts NAV updates and challenge state to Solana.
+
+## Cadence & reliability
+
+| | |
+|---|---|
+| Update cadence | ~60 seconds during active hours |
+| Reliability | JetStream provides message persistence, durability, delivery guarantees |
+| Authorization | `policy_challenges.validate(Report)` requires `template.admin == signer` |
+
+## Safety checks
+
+<Warning>
+These checks pause the vault automatically when something looks wrong:
+</Warning>
+
+| Condition | Action |
+|---|---|
+| API downtime > 5 minutes | Vault pauses withdrawals |
+| On-chain NAV diverges from Bybit equity by > 2% | Vault pauses |
+| Independent watchdog | Cross-validates the primary reader |
+
+All NAV updates are logged on-chain with a timestamp and Bybit equity reference.
+
+## Oracle security
+
+- Oracle keypair stored in KMS, rotated regularly, HSM integration for production
+- Template-admin verification prevents unauthorized challenge updates
+- Cryptographic message authentication
+- Dead-letter queue for failed messages
+- Independent watchdog reader (separate server, API key, region) cross-validates
+
+## The trust assumption
+
+<Warning>
+NAV reporting currently depends on oracle infrastructure operated by Hyro. While settlement, share accounting, fee logic, and payouts all occur on-chain, NAV reporting is the **single largest trust assumption in Phase 1**. A successful oracle attack could mint shares at a false NAV.
+</Warning>
+
+**The decentralization path:** independent watchdog cross-validation today → multi-signer oracle in Phase 2 → ZK proofs of CEX state via zkTLS in the long-term roadmap.
+
+<Card title="Trust Assumptions" icon="shield-halved" href="/trust/assumptions" horizontal>
+  The full disclosure of what LPs trust today.
+</Card>

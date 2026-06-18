@@ -1,0 +1,58 @@
+---
+title: "Getting Started as an LP"
+sidebarTitle: "Getting Started"
+description: "Deposit USDC into verified-manager vaults and earn carry on real trading performance."
+---
+
+As a liquidity provider, you deposit USDC to underwrite verified trading managers and earn carry on the profits they generate. This is a new asset class: direct on-chain participation in the performance of verified, multi-venue trading managers.
+
+<Warning>
+Hyro vaults are a **high-risk allocation**. Returns are tied to live trader PnL — not a fixed yield, not a synthetic basis trade, not a lending APR. Expect drawdowns. See [Risk Disclosure](/lps/risk).
+</Warning>
+
+## What you need
+
+<Steps>
+  <Step title="A Phantom wallet">
+    For depositing, receiving shares, and withdrawing.
+  </Step>
+  <Step title="USDC on Solana">
+    All deposits and settlement are in USDC.
+  </Step>
+</Steps>
+
+## How it works in one paragraph
+
+You deposit USDC into a vault and receive **vault shares** minted at the current NAV. Your capital is routed to the manager's Bybit sub-account; the manager trades; you earn carry on profits. When you withdraw, shares are burned and USDC returns at the prevailing NAV — with a high-water-mark-protected performance fee crystallizing on realized gains.
+
+## Why LPs participate
+
+<CardGroup cols={2}>
+  <Card title="Performance-based returns" icon="chart-line">
+    Tied to actual live PnL of verified managers, uncorrelated with passive crypto holding.
+  </Card>
+  <Card title="Verified managers" icon="user-check">
+    Every manager has an on-chain track record, KYC/KYB, a skin-in-the-game stake, and smart-contract DD limits.
+  </Card>
+  <Card title="Transparent settlement" icon="link">
+    Every deposit, payout, and share mint/burn settles on Solana with a TXID, queryable independently.
+  </Card>
+  <Card title="Proof of reserves" icon="shield-check">
+    The payout vault balance is on-chain at all times.
+  </Card>
+</CardGroup>
+
+## Hyro vs. other crypto yield
+
+| Alternative | What it offers | What Hyro adds |
+|---|---|---|
+| Hold BTC / ETH | Beta exposure | Active-strategy alpha, uncorrelated with spot direction |
+| SOL / ETH staking | ~5–8% APR | Performance-based, manager-driven alpha |
+| Ethena (sUSDe) | Funding-rate basis trade | Multi-venue, manager-driven (not mechanical) |
+| Kamino Vaults | Lending / LP yield | Active trading on real order books |
+| Hyperliquid HLP | Single-venue MM vault | Multi-venue, verified-manager curation |
+| Centralized copy-trading | Retail copy-trading | On-chain settlement, programmatic DD limits, no custodial counterparty risk on LP capital |
+
+<Card title="Explore LP products" icon="grid-2" href="/lps/products" horizontal>
+  Individual vaults, the Hyro Pool, insurance fund, and $HYRO staking.
+</Card>

@@ -1,0 +1,66 @@
+---
+title: "Funded Demo (Tier 1 & 2)"
+sidebarTitle: "Funded Demo"
+description: "What changes once you pass — and how Tier 1 and Tier 2 splits work."
+---
+
+Passing the evaluation opens a **funded demo** account. You trade simulated balances, but your profits are paid in **real USDC**.
+
+## Tier 1 — 0% to +15%
+
+| | |
+|---|---|
+| Split | **80% trader / 20% firm** |
+| Surface | Funded demo (simulated balance) |
+| Payouts | Real USDC, on request |
+| Rules | Same drawdown limits continue (4% daily / 6% trailing) |
+
+The rule engine keeps monitoring. You can request payouts at any time during Tier 1.
+
+### Requesting a payout
+
+<Steps>
+  <Step title="Submit via Phantom">
+    Request the payout from your wallet.
+  </Step>
+  <Step title="On-chain eligibility check">
+    The contract verifies you're eligible.
+  </Step>
+  <Step title="USDC transferred">
+    Funds move from the payout vault to your wallet, with a verifiable TXID. Split applied: 80% to you.
+  </Step>
+</Steps>
+
+<Note>
+In v1, payouts pass through a manual approval queue. Later releases auto-approve with a ~24h safety window and a kill switch.
+</Note>
+
+## Tier 2 — +15% onward
+
+When your cumulative demo profit crosses **+15%**, the dual-track unlocks. Your demo is **not** canceled — it continues at Tier 2:
+
+| | |
+|---|---|
+| Split | **50% trader / 50% firm** (on incremental profit beyond +15%) |
+| Demo scaling | +25% every 60 days of consistent profitability, capped at 2× starting size |
+| Rules | Same DD rules continue |
+| Payouts | Request at any time |
+
+At the same moment, a **real-capital vault** opens in parallel. That's covered next.
+
+## Tier 1 vs Tier 2 at a glance
+
+| | Tier 1 | Tier 2 |
+|---|---|---|
+| Range | 0% → +15% | +15% onward |
+| Split | 80 / 20 | 50 / 50 (incremental) |
+| Demo canceled? | No | No |
+| Vault opens? | No | Yes — in parallel |
+
+<Tip>
+Tier 2 gives you steady, predictable USDC payouts at the 50% split, while the real-capital vault runs alongside at the 80% split. You operate both surfaces at once.
+</Tip>
+
+<Card title="Next: the real-capital vault unlock" icon="vault" href="/traders/challenge/vault-unlock" horizontal>
+  Exactly what opens at +15% and how LP capital scales you.
+</Card>

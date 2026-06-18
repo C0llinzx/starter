@@ -1,0 +1,64 @@
+---
+title: "How It Works"
+sidebarTitle: "How It Works"
+description: "The full flow in plain language — from challenge to funded vault to LP carry."
+---
+
+This page walks through the whole system at a high level. For role-specific detail, jump to [For Traders](/traders/getting-started), [For LPs](/lps/getting-started), or [For Builders](/builders/overview).
+
+## The trader journey
+
+<Steps>
+  <Step title="Buy a challenge">
+    A trader signs in (email or Phantom wallet) and pays an evaluation fee in USDC. The fee is recorded on-chain and the rule version is pinned at purchase.
+  </Step>
+  <Step title="Pass evaluation">
+    The trader trades a demo account on Bybit under smart-contract-enforced rules. A Rust engine monitors continuously; an oracle posts equity and the verdict to Solana.
+  </Step>
+  <Step title="Get funded (Tier 1)">
+    On pass, a funded demo opens. The trader keeps **80%** of profits, paid in real USDC, from 0% up to +15%.
+  </Step>
+  <Step title="Unlock the dual-track at +15%">
+    The demo is **not** canceled. It continues at a 50/50 split on incremental profit, **and** a real-capital vault opens in parallel — seeded by HyroTrader and open to LP deposits.
+  </Step>
+  <Step title="Scale with LP capital">
+    The trader runs both surfaces in parallel. LPs deposit into the real-capital vault and the trader scales beyond the firm's balance sheet.
+  </Step>
+</Steps>
+
+## The LP side
+
+An LP deposits USDC into a vault and receives **vault shares** minted at the current NAV. Their capital is routed to the manager's Bybit sub-account, the manager trades, and the LP earns carry on profits the trader generates. When the LP withdraws, shares are burned and USDC is returned at the prevailing NAV — with a high-water-mark-protected performance fee crystallizing on realized gains.
+
+[Read the LP flow in detail →](/lps/depositing-withdrawing)
+
+## What's on-chain vs. off-chain
+
+Hyro is explicit about this boundary — it's the single most important thing for LPs to understand.
+
+<CardGroup cols={2}>
+  <Card title="On Solana (on-chain)" icon="link">
+    Capital settlement · share accounting · LP deposits & withdrawals · performance-fee logic · challenge-fee collection · payout records (every payout has a TXID)
+  </Card>
+  <Card title="Off-chain" icon="server">
+    Trade execution on Bybit's real order books · the Rust risk engine that monitors rules · NAV reporting via the Hyro oracle (which writes results back on-chain)
+  </Card>
+</CardGroup>
+
+<Warning>
+NAV reporting currently depends on oracle infrastructure operated by Hyro. This is the **largest trust assumption in Phase 1**, and it's disclosed plainly. See [Trust Assumptions](/trust/assumptions).
+</Warning>
+
+## The oracle, briefly
+
+A NATS/JetStream message queue reads Bybit sub-account equity and posts NAV updates and challenge state to Solana roughly **every 60 seconds** during active hours. Safety checks pause the vault if the exchange API goes dark for more than 5 minutes, or if on-chain NAV diverges from Bybit equity by more than 2%. An independent watchdog reader cross-validates the primary.
+
+[More on oracle infrastructure →](/reference/oracle)
+
+## Where it's headed
+
+Execution starts on Bybit and progressively expands to other CEXes, then to on-chain Solana DEXes (Drift, Phoenix) in Phase 4 — removing CEX counterparty risk entirely for the on-chain track. The protocol decentralizes in stages: decentralized capital and programmatic rules today, permissionless trader onboarding next, on-chain execution after that.
+
+<Card title="The Dual-Track Model" icon="code-branch" href="/protocol/dual-track" horizontal>
+  The mechanic that removes the artificial scaling cap — explained in full.
+</Card>

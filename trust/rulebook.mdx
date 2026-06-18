@@ -1,0 +1,34 @@
+---
+title: "Versioned Rulebook"
+sidebarTitle: "Versioned Rulebook"
+description: "Rules cannot change mid-evaluation — as a structural guarantee, not a marketing claim."
+---
+
+One of the core problems with traditional prop firms is rule changes mid-evaluation. Hyro solves this by treating the rulebook as a versioned, public artifact with a verifiable change history.
+
+## How it works
+
+<Steps>
+  <Step title="Every version is published">
+    Each rule version lives at `hyro.network/rulebook` with a version number (e.g. `v1.0`), an effective date, and a git-style commit hash.
+  </Step>
+  <Step title="Rules apply prospectively only">
+    Challenges purchased under `v1.0` are evaluated against `v1.0` rules even after `v1.1` is published. The rule version is recorded **on-chain** at challenge purchase.
+  </Step>
+  <Step title="The changelog is public">
+    Every change since `v1.0` is documented with date, scope, and rationale. LPs, traders, and investors can audit the entire rule-change history.
+  </Step>
+  <Step title="Material changes require notice">
+    Meaningful updates are announced via Discord, X, and email with minimum lead time before taking effect.
+  </Step>
+</Steps>
+
+## The guarantee
+
+<Check>
+Because the rule version is pinned on-chain at purchase, "rules cannot change mid-evaluation" is a **structural guarantee** enforced by the protocol — not a promise that can be quietly broken.
+</Check>
+
+<Card title="Evaluation rules" icon="list-check" href="/traders/challenge/rules" horizontal>
+  The current ruleset and what each rule means.
+</Card>

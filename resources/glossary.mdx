@@ -1,0 +1,89 @@
+---
+title: "Glossary"
+sidebarTitle: "Glossary"
+description: "Key terms used across Hyro Protocol."
+---
+
+<ResponseField name="Direct Vault">
+  LP-funded vault for verified senior traders without an evaluation step.
+</ResponseField>
+
+<ResponseField name="Challenge Vault">
+  LP-funded vault that requires the trader to pass an on-chain evaluation.
+</ResponseField>
+
+<ResponseField name="Hyro Pool">
+  Diversified LP pool with auto-allocation across verified vaults.
+</ResponseField>
+
+<ResponseField name="Dual-track">
+  The funded model — at +15% on the funded demo, a real vault opens while the demo continues at a reduced 50/50 split.
+</ResponseField>
+
+<ResponseField name="Tier 1 / Tier 2">
+  The two profit-split phases of the funded demo. Tier 1 = 0 to +15% at 80/20. Tier 2 = +15% onward at 50/50 on incremental.
+</ResponseField>
+
+<ResponseField name="HWM (High-Water Mark)">
+  Performance fees apply only on profits above the prior peak.
+</ResponseField>
+
+<ResponseField name="NAV (Net Asset Value)">
+  Current value of vault holdings per share.
+</ResponseField>
+
+<ResponseField name="PDA (Program-Derived Address)">
+  Deterministic Solana address derived from a program + seed.
+</ResponseField>
+
+<ResponseField name="Anchor manager">
+  Hand-selected HyroTrader graduate launching a vault during Phase 1.
+</ResponseField>
+
+<ResponseField name="Per-LP cost basis">
+  Performance fees calculated against each LP's individual entry NAV.
+</ResponseField>
+
+<ResponseField name="Squads">
+  Solana multi-sig protocol; used for the operator wallet and treasury transfers.
+</ResponseField>
+
+<ResponseField name="CCXT">
+  JavaScript/Python library for unified cryptocurrency exchange APIs.
+</ResponseField>
+
+<ResponseField name="JetStream">
+  NATS message-streaming layer providing persistence and delivery guarantees.
+</ResponseField>
+
+<ResponseField name="Codama">
+  Code generation tool that produces TypeScript clients from Anchor IDLs.
+</ResponseField>
+
+<ResponseField name="zkTLS">
+  Zero-knowledge proof of a TLS session — a research-grade primitive for proving CEX balances on-chain.
+</ResponseField>
+
+<ResponseField name="Funded demo">
+  Simulated trading account where profits are paid in real USDC. Continues in parallel with the real vault after +15%.
+</ResponseField>
+
+<ResponseField name="Policy program">
+  Pluggable Solana program that validates vault transactions against a rule set before execution.
+</ResponseField>
+
+<ResponseField name="Sub-account">
+  Bybit-side isolated account holding a single trader's capital; provisioned per vault.
+</ResponseField>
+
+<ResponseField name="Crystallization">
+  The moment a performance fee is calculated and locked in; triggered by LP withdrawal or monthly snapshot.
+</ResponseField>
+
+<ResponseField name="HyroAPI">
+  Phase 4 B2B product — funded trading infrastructure rented to third-party prop firms via API.
+</ResponseField>
+
+<ResponseField name="Drift / Phoenix">
+  Solana perpetuals DEX and on-chain order book, planned Phase 4 integrations for on-chain execution.
+</ResponseField>

@@ -1,0 +1,59 @@
+---
+title: "Program Topology"
+sidebarTitle: "Program Topology"
+description: "How the core, policies, and fee calculators connect over CPI."
+---
+
+The protocol is not a monolith. A small core program holds vault state and delegates two concerns — authorization and fees — to pluggable programs.
+
+## The flow
+
+```
+                      hyro_protocol (core)
+                      holds vault state
+                            |
+        +-------------------+-------------------+
+        |                                       |
+  validate(ValidateOperation)          charge_fees
+  CPI per instruction                  (5 fund-moving instructions)
+        |                                       |
+  policy_program                        fee_collection (dispatcher)
+  (pluggable authorization)                     |
+                                        calculate_fees
+                                                |
+                                        fee_calc_program
+                                        (pluggable strategy)
+```
+
+Every privileged instruction is gated by its own `validate` CPI. Every fund movement is metered by a `charge_fees` CPI. The `claim_fees` path is a payout, not a charge.
+
+## The security triangle
+
+A manager never signs as the vault. Instead:
+
+<Steps>
+  <Step title="create_tx">
+    The manager proposes a CPI (target program, accounts, data) stored in a Transaction PDA. The core fires `validate(Creation)` — the policy can inspect the proposal before it's allowed to exist.
+  </Step>
+  <Step title="execute_tx">
+    Asserts `did_execute == false` (one-shot replay guard), fires `validate(Execution)`, and only on approval replays the proposed CPI with `invoke_signed` under the vault's authority PDA.
+  </Step>
+</Steps>
+
+The proposal and its execution are authorized **independently**. The manager holds execution rights under constraints, never custody.
+
+## Two PDAs, separate duties
+
+| PDA | Seeds | Role |
+|---|---|---|
+| `vault.authority` | `[vault]` | Signs outbound capital and executed CPIs |
+| `vault_share_signer` | `["vault_share_signer", vault]` | Owns the vault token account, mints/burns LP shares |
+
+## Pluggability
+
+A vault's entire economic and authorization configuration is just two on-chain pubkeys plus their config accounts:
+
+- `policy_program` — who may do what
+- `fee_calc_program` — how much is charged
+
+Both are swappable (while transactions are disabled). An LP can read exactly which policy and fee strategy a vault is bound to before depositing.

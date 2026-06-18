@@ -1,0 +1,91 @@
+---
+title: "Key Parameters"
+sidebarTitle: "Key Parameters"
+description: "Every decided parameter in one place. Encoded in smart contracts."
+---
+
+<Info>
+Parameters are encoded in smart contracts. The rule version applied to your challenge is recorded on-chain at purchase and cannot change mid-evaluation.
+</Info>
+
+## Challenge & evaluation
+
+| Parameter | Value |
+|---|---|
+| Account sizes | 25k / 50k / 100k (simulated USDC) |
+| Structure | One-step (10% target) or two-step (10% / 15%) |
+| Daily drawdown | 4% |
+| Max loss (trailing) | 6% |
+| Profit target | 10% |
+| Minimum trading days | 5 |
+| Profit concentration cap | 40% |
+
+## Funded demo
+
+| Parameter | Value |
+|---|---|
+| Tier 1 split (0 → +15%) | 80% trader / 20% firm |
+| Tier 2 unlock threshold | +15% cumulative profit |
+| Tier 2 split (+15% onward) | 50% trader / 50% firm (incremental) |
+| Demo size scaling (Tier 2) | +25% every 60 days, capped at 2× starting |
+| Vault opening trigger | Automatic at +15%, parallel to demo Tier 2 |
+| Real-vault firm seed | 10% of starting demo size |
+
+## Vault economics
+
+<Tabs>
+  <Tab title="Challenge Vault (fixed)">
+    | Parameter | Value |
+    |---|---|
+    | Performance fee | 20% fixed, HWM-protected, per-LP cost basis |
+    | Fee split | 80% trader / 15% LPs / 5% protocol |
+    | LPs keep | Residual 80% of total profit |
+  </Tab>
+  <Tab title="Direct Vault (configurable)">
+    | Parameter | Value |
+    |---|---|
+    | Performance fee | 10–30% (manager picks at creation) |
+    | Fee split | 90% manager / 5% protocol / 5% insurance |
+    | Manager stake | 5% of expected TVL, locked 3 months, visible on-chain |
+    | Min track record | 6 months continuous, verifiable |
+    | Min realized PnL | $50,000+ |
+    | Max DD in track record | 15% trailing 6 months |
+    | Initial TVL cap | $50K – $250K by track-record strength |
+  </Tab>
+</Tabs>
+
+## LP-side configurables
+
+Set by the manager at vault creation.
+
+| Parameter | Default | Manager can set up to |
+|---|---|---|
+| Min LP deposit | $100 | $50,000 |
+| Lockup period | None | 30 days |
+| Cooldown before withdrawal | Optional 7 days | Configurable |
+| Weekly redemption cap | 20% of AUM | Configurable |
+| Early-exit penalty (during lockup) | 2% to insurance fund | 0% = no early exit |
+| Withdrawal delay (post-lockup) | ~48h timelock (1h on devnet) | — |
+
+## Risk & access controls
+
+| Parameter | Value |
+|---|---|
+| Manager-set max DD shutdown | 5% – 20% (default 8%) |
+| Manager-set max leverage | 1× – 20× (default 10×) |
+| Visibility — Challenge Vault | Public (default) |
+| Visibility — Direct Vault | Aggregate-only (default) |
+| Visibility — time-delayed option | 7-day delay before positions revealed |
+| Access mode — Direct Vault | Public (default) · Private link · Whitelist |
+| Rebalancing mode | Auto-immediate (default) · Scheduled 4h · Scheduled 24h |
+
+## Oracle & treasury
+
+| Parameter | Value |
+|---|---|
+| Oracle update cadence | ~60 seconds during active hours |
+| NAV divergence pause threshold | 2% |
+| API downtime pause threshold | 5 minutes |
+| Treasury structure | Fee vault + payout vault, Squads 3/5 multisig |
+| Fee crystallization | Realized events only: LP withdrawal + monthly snapshot |
+| Management fee at launch | 0% — perf fee is the only monetization model |

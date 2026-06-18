@@ -1,0 +1,72 @@
+---
+title: "SDK — LP Operations"
+sidebarTitle: "LP Operations"
+description: "Deposits, withdrawals, and claiming fees through the SDK."
+---
+
+LP capital flows are **asynchronous and two-step**: a request escrows funds, then a process settles them. This lets the policy validate at every transition.
+
+## Deposits
+
+```typescript
+// Phase 1: escrow underlying in a per-user request PDA
+await hyro.requestDeposit({ vault, amount: 1_000_000 }); // 1 USDC
+
+// Phase 2: re-validate, charge fees, mint shares from vault_share_signer
+await hyro.processDeposits({ vault });
+```
+
+Optionally, a policy can require explicit approval between request and process:
+
+```typescript
+await hyro.approveDepositRequest({ vault, request });
+// or
+await hyro.rejectDepositRequest({ vault, request });
+```
+
+## Withdrawals
+
+Withdrawals mirror deposits, with a mandatory delay enforced in the core.
+
+```typescript
+// Phase 1: escrow shares
+await hyro.requestWithdrawal({ vault, shares: 500_000 });
+
+// withdrawal_delay must elapse (enforced in core, a policy cannot waive it)
+
+// Phase 2: validate, burn shares, transfer underlying out
+await hyro.processWithdrawals({ vault });
+```
+
+<Note>
+The withdrawal delay (`vault.config.withdrawal_delay_seconds`) is enforced in the **core**, not the policy. A policy cannot waive it. Some policies add a further time-of-period gate (e.g. `policy_withdrawal_window`).
+</Note>
+
+## Claiming fees
+
+`claim_fees` moves accrued (unclaimed) fees to their recipient. It is **not** a charge — charging happens during fund operations and only writes bookkeeping.
+
+```typescript
+await hyro.claimFees({
+  vault,
+  feeType: "manager",   // lp | manager | protocol | performance
+  amount: 10_000,
+});
+```
+
+The dispatcher verifies `recipient == recipients.get_recipient(fee_type)` and `amount <= unclaimed`, then the core executes the SPL transfer signing as `vault_share_signer`.
+
+## Reading the fee ledger
+
+```typescript
+const fees = await hyro.getVaultFees(vault);
+
+console.log(fees.unclaimed);        // accrued, not yet paid
+console.log(fees.totalCollected);   // lifetime charged
+console.log(fees.totalClaimed);     // lifetime paid out
+console.log(fees.highWaterMark);    // performance-fee baseline
+```
+
+<Card title="Fee architecture in depth" icon="calculator" href="/reference/fee-architecture" horizontal>
+  Buckets, the two-hop CPI, and the HWM mechanics.
+</Card>

@@ -1,72 +1,171 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "name": "Hyro Protocol",
+  "description": "On-chain crypto prop trading. Verifiable. Scalable. Settlement on Solana.",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#852EFF",
+    "light": "#DAA8E4",
+    "dark": "#852EFF"
   },
-  "favicon": "/favicon.svg",
-  "navigation": {
-    "pages": [
-      {
-        "group": "Getting Started",
-        "pages": [
-          "index",
-          "quickstart"
-        ]
-      }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
+  "background": {
+    "color": {
+      "dark": "#0C0D16"
     }
   },
+  "appearance": {
+    "default": "dark"
+  },
+  "css": "/custom.css",
+  "fonts": {
+    "family": "Satoshi",
+    "source": "https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap",
+    "format": "woff2"
+  },
+  "favicon": "/favicon.svg",
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/hyro-dark.svg",
+    "dark": "/logo/hyro-light.svg"
   },
   "navbar": {
     "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
+      { "label": "Whitepaper (PDF)", "href": "https://drive.google.com/file/d/1JraPgqqj1Yt6R-amT4zL3D1z7lW21lya/view" }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "label": "Launch App",
+      "href": "https://hyro.network"
     }
   },
-  "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude",
-      "perplexity",
-      "mcp",
-      "cursor",
-      "vscode"
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "index",
+              "protocol/overview",
+              "protocol/how-it-works",
+              "protocol/dual-track",
+              "protocol/parameters"
+            ]
+          },
+          {
+            "group": "For Traders",
+            "pages": [
+              "traders/getting-started",
+              "traders/first-challenge",
+              "traders/challenge/rules",
+              "traders/challenge/funded-demo",
+              "traders/challenge/vault-unlock",
+              "traders/direct-vault",
+              "traders/payouts"
+            ]
+          },
+          {
+            "group": "For LPs",
+            "pages": [
+              "lps/getting-started",
+              "lps/products",
+              "lps/depositing-withdrawing",
+              "lps/performance-fees",
+              "lps/vault-visibility",
+              "lps/risk"
+            ]
+          },
+          {
+            "group": "Trust & Transparency",
+            "pages": [
+              "trust/on-chain",
+              "trust/payout-reserve",
+              "trust/rulebook",
+              "trust/assumptions"
+            ]
+          },
+          {
+            "group": "$HYRO Token",
+            "pages": [
+              "token/overview"
+            ]
+          },
+          {
+            "group": "Resources",
+            "pages": [
+              "resources/glossary",
+              "resources/faq"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Build",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "builders/overview",
+              "builders/quickstart"
+            ]
+          },
+          {
+            "group": "SDK",
+            "pages": [
+              "builders/sdk/vault-operations",
+              "builders/sdk/challenge-operations",
+              "builders/sdk/lp-operations"
+            ]
+          },
+          {
+            "group": "Extending the Protocol",
+            "pages": [
+              "builders/custom-policy",
+              "builders/custom-fee-calculator",
+              "builders/ai-agents"
+            ]
+          },
+          {
+            "group": "Technical Reference",
+            "pages": [
+              "reference/architecture",
+              "reference/program-topology",
+              "reference/policy-programs",
+              "reference/fee-architecture",
+              "reference/oracle",
+              "reference/addresses"
+            ]
+          }
+        ]
+      }
     ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+      "x": "https://x.com/hyrotrader",
+      "discord": "https://discord.gg/hyrotrader",
+      "github": "https://github.com/hyro-protocol",
+      "youtube": "https://youtube.com/@hyrotrader"
+    },
+    "links": [
+      {
+        "header": "Protocol",
+        "items": [
+          { "label": "Overview", "href": "https://docs.hyro.network/protocol/overview" },
+          { "label": "Whitepaper (PDF)", "href": "https://hyro.network/whitepaper.pdf" },
+          { "label": "Rulebook", "href": "https://hyro.network/rulebook" }
+        ]
+      },
+      {
+        "header": "Build",
+        "items": [
+          { "label": "Quickstart", "href": "https://docs.hyro.network/builders/quickstart" },
+          { "label": "GitHub", "href": "https://github.com/hyro-protocol" }
+        ]
+      }
+    ]
+  },
+  "contextual": {
+    "options": ["copy", "view", "chatgpt", "claude"]
   }
 }

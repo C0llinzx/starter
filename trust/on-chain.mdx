@@ -1,0 +1,38 @@
+---
+title: "What's Verifiable On-Chain"
+sidebarTitle: "On-Chain Transparency"
+description: "Everything an LP needs to evaluate a vault, queryable independently of Hyro."
+---
+
+Most crypto prop firms publish no verifiable data — pass rates are claimed, payouts are claimed, challenge purchases are claimed. Hyro publishes on-chain everything an LP needs to evaluate a vault.
+
+## Verifiable from Phase 1 onward
+
+<Check>**Every challenge purchase** — fee → fee vault TX hash</Check>
+<Check>**Every funded-demo payout** — payout vault → trader wallet TX hash</Check>
+<Check>**Every vault performance-fee crystallization** — with HWM reference</Check>
+<Check>**Every LP deposit / withdrawal** — with NAV at execution</Check>
+<Check>**Every vault opening / closing event**</Check>
+<Check>**Aggregate metrics** — total payouts, active vaults, total AUM, fee vault balance, payout vault balance</Check>
+
+All of the above are linked to Solana explorer for independent verification.
+
+## What is NOT claimed as on-chain
+
+<Note>
+HyroTrader has paid out $5M+ to traders historically. Those legacy payouts were settled **before** on-chain settlement infrastructure was live. Hyro does **not** retroactively claim on-chain verifiability for them. All Hyro Protocol payouts from Phase 1 onward are on-chain natively, each with a TXID.
+</Note>
+
+This honesty is deliberate. Claiming verifiability you can't back up is exactly the kind of thing the protocol exists to replace.
+
+## A vault's economics are public
+
+Because policy and fee logic are pluggable on-chain pubkeys, a vault's entire configuration is auditable before you deposit:
+
+- `policy_program` — which authorization rules apply
+- `fee_calc_program` — which fee strategy and rates apply
+- The dispatcher's `total_collected` / `total_claimed` ledger — every fee ever charged
+
+<Card title="Proof of reserves" icon="shield-check" href="/trust/payout-reserve" horizontal>
+  The payout vault balance, queryable on-chain at any time.
+</Card>

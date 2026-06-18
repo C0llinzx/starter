@@ -1,0 +1,64 @@
+---
+title: "Payouts"
+sidebarTitle: "Payouts"
+description: "How payouts settle on-chain, and how to verify every one."
+---
+
+Every Hyro Protocol payout settles on-chain in USDC, with a TXID anyone can verify on Solana explorer.
+
+## Challenge Vault payouts
+
+<Steps>
+  <Step title="Request via Phantom">
+    Submit the payout request from your wallet.
+  </Step>
+  <Step title="On-chain eligibility check">
+    The contract verifies eligibility against your tier and rules.
+  </Step>
+  <Step title="Approval">
+    v1: manual approval queue. Later: auto-approval with a ~24h safety window and kill switch.
+  </Step>
+  <Step title="USDC transferred">
+    Funds move from the payout vault to your wallet. Split applied (80% Tier 1, 50% Tier 2 incremental).
+  </Step>
+</Steps>
+
+## Verifying a payout
+
+Every payout produces a transaction hash on Solana. You can independently verify:
+
+- **Challenge purchases** — fee → fee vault TX hash
+- **Funded-demo payouts** — payout vault → your wallet TX hash
+- **Vault performance-fee crystallizations** — with HWM reference
+- **Vault opening / closing events**
+
+[What's verifiable on-chain →](/trust/on-chain)
+
+## Crystallization (vaults)
+
+For the real-capital vault, performance fees crystallize only at **realized events**:
+
+- LP withdrawal
+- Monthly snapshot
+
+Fees never crystallize on paper gains. Once crystallized, the trader, protocol, and insurance shares can be claimed.
+
+## The treasury path
+
+USDC moves through two on-chain pools, controlled by a **Squads 3/5 multisig** — no single key controls movement:
+
+```
+Trader pays fee (Phantom -> USDC)
+        |
+   Fee vault (Solana PDA)
+        |
+  Multisig transfer (Squads 3/5)
+        |
+  Payout vault (Solana PDA)
+        |
+  Trader payout (USDC -> Phantom)
+```
+
+<Card title="Proof of reserves" icon="shield-check" href="/trust/payout-reserve" horizontal>
+  The payout vault balance is queryable on-chain at any time.
+</Card>

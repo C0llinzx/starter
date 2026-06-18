@@ -1,0 +1,103 @@
+---
+title: "Building a Custom Fee Calculator"
+sidebarTitle: "Custom Fee Calculator"
+description: "Implement calculate_fees to define any fee model — drop-in, no core changes."
+---
+
+Fees are the protocol's second pluggable layer. The core hard-codes **where** fees may be charged; the calculator defines **how much**. Any program satisfying three conditions is a drop-in fee strategy — no change to the core or dispatcher, no redeploy.
+
+## The two-hop call path
+
+```
+hyro_protocol · fund op  ->  charge_fees
+        |  FeeCalculationInput
+fee_collection · dispatcher & VaultFees ledger
+        |  CALCULATE_FEES_DISCRIMINATOR ‖ input
+fee_calc_program · calculate_fees  (your program)
+        ^  FeeCalculationOutput (via return-data)
+```
+
+## The three conditions
+
+<Steps>
+  <Step title="Match the discriminator">
+    Expose an instruction whose 8-byte discriminator equals `CALCULATE_FEES_DISCRIMINATOR` = `[140,235,78,9,249,8,129,101]`. In Anchor, just name it `calculate_fees` — the generated discriminator matches by construction.
+  </Step>
+  <Step title="Read the input, treat account[0] as the vault">
+    Take a `FeeCalculationInput` argument; `account[0]` is the read-only vault, any further accounts are your own config PDAs.
+  </Step>
+  <Step title="Return output via return-data">
+    Write a `FeeCalculationOutput` with `set_return_data`.
+  </Step>
+</Steps>
+
+## The wire types
+
+```rust
+pub enum FeeType { Lp, Manager, Protocol, Performance } // u8
+
+pub struct FeeAmounts { pub lp: u64, pub manager: u64, pub protocol: u64, pub performance: u64 }
+
+pub struct FeeCalculationInput {   // core -> calculator
+    pub operation: FeeOperation,
+    pub amount: u64,               // notional of the triggering op
+    pub total_balance: i64,        // signed: a vault may carry venue debt
+    pub timestamp: i64,
+    pub last_fee_timestamp: i64,   // for time-based accrual
+    pub high_water_mark: u64,      // for performance fees
+}
+
+pub struct FeeCalculationOutput {  // calculator -> core (via return-data)
+    pub fees: FeeAmounts,
+    pub new_high_water_mark: Option<u64>,
+}
+```
+
+## A minimal calculator
+
+```rust
+use anchor_lang::prelude::*;
+use fee_sdk::{FeeCalculationInput, FeeCalculationOutput};
+
+declare_id!("Examp1eFeeCa1c1111111111111111111111111111111");
+
+#[program]
+pub mod my_fee_calc {
+    use super::*;
+
+    // name == "calculate_fees" => discriminator == CALCULATE_FEES_DISCRIMINATOR
+    pub fn calculate_fees(_ctx: Context<Calc>, input: FeeCalculationInput) -> Result<()> {
+        let mut out = FeeCalculationOutput::default();
+        out.fees.protocol = input.amount / 100; // flat 1% to protocol — your logic here
+        anchor_lang::solana_program::program::set_return_data(&out.try_to_vec()?);
+        Ok(())
+    }
+}
+
+#[derive(Accounts)]
+pub struct Calc<'info> {
+    /// CHECK: account[0] is the read-only vault
+    pub vault: UncheckedAccount<'info>,
+    // add your own config PDA(s) here as needed
+}
+```
+
+## The four buckets and the HWM
+
+Every fee splits into four buckets — **LP, manager, protocol, performance** — each with its own verified recipient. The performance bucket is high-water-mark-gated: charge only on equity above the prior mark and return `new_high_water_mark = Some(balance)`, which the dispatcher persists. The same gain is never taxed twice.
+
+## Prebuilt calculators to reference
+
+| Calculator | Model |
+|---|---|
+| `fee_collection_fractions` | Basis-point fees per bucket on the operation amount, plus HWM-gated performance |
+| `fee_collection_time_based` | Per-period accrual (daily → annual), fixed amount or share of AUM |
+| `fee_collection_all_in_one` | Both models behind per-operation toggles, with its own stored HWM |
+
+## Attaching it
+
+Point `VaultFees.fee_calc_program` at your program id via `set_fee_calc_program`.
+
+<Tip>
+A vault's economics are just two on-chain pubkeys (`policy_program`, `fee_calc_program`) plus their config accounts. An LP can read exactly which strategy and rates a vault is bound to before depositing.
+</Tip>

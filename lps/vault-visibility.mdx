@@ -1,0 +1,57 @@
+---
+title: "Vault Visibility Modes"
+sidebarTitle: "Vault Visibility"
+description: "What you can always see, and what a manager may choose to protect."
+---
+
+Hyro respects the difference between retail-facing transparency and professional strategy privacy. Aggregate performance is always public; live position data is configurable by the manager.
+
+## Always public — cannot be hidden by any manager
+
+<Check>
+NAV updates (~every 60 seconds)
+</Check>
+<Check>
+Total AUM
+</Check>
+<Check>
+Drawdown metrics (current + historical)
+</Check>
+<Check>
+Realized returns and payouts
+</Check>
+<Check>
+Performance fee rate
+</Check>
+<Check>
+Manager skin-in-the-game stake
+</Check>
+<Check>
+Strategy description (submitted at application)
+</Check>
+
+## Configurable — the live-positions question
+
+| Mode | What you see | Use case |
+|---|---|---|
+| **Public** | Live positions, open trades, leverage in real time | Default for Challenge Vaults — fully transparent |
+| **Aggregate-only** *(Direct Vault default)* | NAV, AUM, DD, returns — but live position book hidden | Professional managers protecting strategy from copy bots |
+| **Time-delayed** | Positions revealed after a 7-day delay | Proves track record after trades play out, still defends against real-time copying |
+
+## Why position privacy matters
+
+Copy-trading bots on Hyperliquid, Binance, and Bybit systematically scrape live positions and replicate strategies in real time. This destroys alpha for the original manager and pushes sophisticated traders away from transparent platforms. Hyro gives managers explicit control over this trade-off — **without** sacrificing the metrics you need to evaluate a vault.
+
+<Note>
+Even in Aggregate-only mode, everything you need to assess risk and performance — NAV, AUM, drawdown, returns, fees, manager stake — stays public. Only the live position book is hidden.
+</Note>
+
+## Access modes
+
+Separately from visibility, managers control who can deposit:
+
+| Mode | Who can deposit | Use case |
+|---|---|---|
+| Public (default) | Anyone | Standard vaults, broad LP base |
+| Private (link-only) | Anyone with the vault URL | Soft gating, curated audience |
+| Whitelist | Pre-approved wallet addresses only | VIP allocations, institutional LPs |

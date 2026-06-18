@@ -1,0 +1,59 @@
+---
+title: "Evaluation Rules"
+sidebarTitle: "Evaluation Rules"
+description: "Every rule, what it means, and how it's enforced. Version-pinned on-chain."
+---
+
+These rules are encoded in smart contracts and pinned to your challenge at purchase. They **cannot change mid-evaluation**.
+
+## The rules
+
+| Rule | Limit | What it means |
+|---|---|---|
+| Daily drawdown | 4% | Your equity can't drop more than 4% from the day's starting balance |
+| Max loss (trailing) | 6% | Your equity can't drop more than 6% from its trailing peak |
+| Profit target | 10% | You pass when you reach +10% |
+| Minimum trading days | 5 | You must trade on at least 5 distinct days |
+| Profit concentration cap | 40% | No single trade can account for more than 40% of total profit |
+
+## How rules are enforced
+
+A Rust engine monitors your Bybit account continuously — not a human reviewer checking after the fact. An oracle posts your equity and the pass/fail verdict to Solana roughly every 60 seconds during active hours.
+
+This matters: enforcement is automatic and visible. There's no discretionary review where a firm decides after you've succeeded that you broke a rule.
+
+## Why these specific numbers
+
+The ruleset isn't arbitrary. HyroTrader iterated on challenge models across multiple cohorts over five years. The current parameters are tuned for two goals at once: help traders build genuine risk-management discipline, and avoid over-restricting legitimate strategies.
+
+<AccordionGroup>
+  <Accordion title="Why 5 minimum trading days?" icon="calendar-days">
+    Fraud prevention. Arbitrage rings target firms with no minimum, passing on a single high-conviction trade and extracting payouts on accounts they never genuinely earned. Five days forces multi-session demonstration of risk discipline — short enough not to block legitimate traders, long enough to filter exploits.
+  </Accordion>
+  <Accordion title="Why a 40% profit concentration cap?" icon="chart-pie">
+    It prevents passing on one outsized gamble. Genuine skill shows up across multiple trades, not a single lucky position.
+  </Accordion>
+</AccordionGroup>
+
+## Rule version pinning
+
+Your evaluation runs under a specific rulebook version (e.g. `v1.0`). The version is recorded on-chain when you buy the challenge.
+
+- Challenges purchased under `v1.0` are evaluated against `v1.0` rules **even after** `v1.1` is published.
+- Every rule change is documented in a public changelog with date, scope, and rationale.
+
+[How the versioned rulebook works →](/trust/rulebook)
+
+## Outcomes
+
+<Check>
+**Pass** — you reach +10% within the rules, across at least 5 trading days. You move to the funded demo at Tier 1 (80/20 split).
+</Check>
+
+<Warning>
+**Fail** — you break a drawdown limit or violate a rule. The demo is canceled and the evaluation fee is not refunded.
+</Warning>
+
+<Card title="Next: the funded demo" icon="arrow-right" href="/traders/challenge/funded-demo" horizontal>
+  What changes once you pass, and how Tier 1 / Tier 2 splits work.
+</Card>

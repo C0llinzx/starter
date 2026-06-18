@@ -1,0 +1,81 @@
+---
+title: "Direct Vault (Verified Managers)"
+sidebarTitle: "Direct Vault"
+description: "For traders, funds, algo desks, and market makers with a verifiable track record. No challenge required."
+---
+
+<Info>
+Direct Vault applications open to external managers in **Phase 2 (Q1 2027)**. At launch (Phase 1), Direct Vaults are limited to hand-selected HyroTrader graduates.
+</Info>
+
+The Direct Vault path skips the challenge entirely. Your **existing track record** is the qualification.
+
+## Who it's for
+
+- Individual professional traders
+- Funds, partnerships, RIAs
+- Algorithmic trading desks
+- Market makers
+
+## Eligibility
+
+| Requirement | Value |
+|---|---|
+| Verifiable trading history | 6 months minimum, continuous |
+| Track record import | Read-only API key **or** cryptographically signed snapshot |
+| Realized PnL | $50,000+ over the verifiable period |
+| Max drawdown | Under 15% trailing 6 months |
+| Risk-adjusted metric | Sharpe > 1.0 or comparable |
+| Identity check | KYC (individuals) · KYB (entities) |
+| Geographic eligibility | US retail, UK retail, sanctioned territories excluded |
+
+## Application process
+
+<Steps>
+  <Step title="Apply online">
+    Submit track record, strategy, and identity documents at hyro.network.
+  </Step>
+  <Step title="Admin review (1–2 weeks)">
+    Track-record verification and strategy assessment.
+  </Step>
+  <Step title="KYC / KYB (1–2 weeks, parallel)">
+    Processed by a qualified third-party provider.
+  </Step>
+  <Step title="Strategy interview (~1 hour)">
+    Video call with the Head of Trading or a designated reviewer.
+  </Step>
+  <Step title="Decision">
+    Final approval or structured feedback.
+  </Step>
+</Steps>
+
+**Typical total: 3–5 weeks** from application to vault opening.
+
+## Vault creation conditions
+
+On approval, you configure your vault:
+
+| Parameter | Value |
+|---|---|
+| Manager stake | 5% of expected initial TVL, locked 3 months, visible on-chain |
+| Initial TVL cap | $50K – $250K, sized to track-record strength |
+| Performance fee | Your choice, 10–30% |
+| Drawdown limits | Max-DD shutdown 5–20%, max leverage 1×–20× (defaults: 8% DD, 10×) |
+| Visibility | Aggregate-only (default) · Public · Time-delayed 7 days |
+| Access | Public (default) · Private link · Whitelist |
+| Min LP deposit | Default $100, up to $50,000 |
+| LP lockup | Default none, up to 30 days |
+
+## Manager economics
+
+| Your perf fee | You net | Protocol | Insurance | LPs keep |
+|---|---|---|---|---|
+| 10% | 9% of profit | 0.5% | 0.5% | 90% of profit |
+| 20% | 18% of profit | 1% | 1% | 80% of profit |
+| 30% | 27% of profit | 1.5% | 1.5% | 70% of profit |
+
+This matches standard hedge-fund and crypto-fund economics — a manager running a 30% perf-fee fund externally can run a Hyro Direct Vault on the same terms.
+
+<Note>
+**Backtests are optional and LP-facing only.** They're displayed alongside live performance so LPs can compare, but they're never used for protocol enforcement decisions. Enforcement is based on live performance and the on-chain risk limits you set.
+</Note>

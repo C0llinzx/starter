@@ -1,0 +1,88 @@
+---
+title: "Building a Custom Policy"
+sidebarTitle: "Custom Policy"
+description: "Implement the validate CPI interface to author your own authorization rules."
+---
+
+Authorization is delegated, per operation, to a vault's configured **policy program**. Any program that implements the `validate` interface can serve as a policy. Because the ABI is a single instruction, a working policy is short.
+
+## The wire contract
+
+| Element | Value |
+|---|---|
+| Discriminator | Hand-rolled 8-byte `VALIDATE_DISCRIMINATOR` = `[60,252,90,66,246,253,232,139]` (not an Anchor sighash) |
+| Instruction data | `VALIDATE_DISCRIMINATOR ‖ borsh(ValidateOperation)` — a single-byte op code (0–12) |
+| Accounts | `account[0]` is always the read-only `vault`; the rest follow a fixed per-operation layout from `hyro_sdk::get_context` |
+| Invocation | The core uses an unsigned `invoke` — a policy can read state and decide, but can never move funds |
+| Failure | If the policy returns `Err`, the entire core instruction reverts. Authorization is all-or-nothing. |
+
+## The 13 operations
+
+Each core instruction issues exactly one `validate(ValidateOperation)` CPI, 1:1 with an operation variant:
+
+| Operation | Gates |
+|---|---|
+| `Creation` | Propose a CPI into a Transaction PDA |
+| `Execution` | Replay the proposed CPI as the vault |
+| `RequestDeposit` / `ProcessDeposits` | Open / settle a deposit |
+| `ApproveDeposit` / `RejectDeposit` | Approve / refund a deposit |
+| `RequestWithdrawal` / `ProcessWithdrawals` | Open / settle a withdrawal |
+| `ApproveWithdrawal` / `RejectWithdrawal` | Approve / return escrowed shares |
+| `UseFunds` / `ReturnFunds` | Move capital to / from the venue |
+| `Report` | Write NAV (oracle / bybit-sync) |
+
+Operations a policy doesn't constrain simply return `Ok` (pass-through) — you implement only the checks relevant to your purpose.
+
+## A minimal policy
+
+This authorizes only transaction creation, and only for one hard-coded address. Every other operation passes through. No config account needed.
+
+```rust
+use anchor_lang::prelude::*;
+use hyro_sdk::{get_context, ValidateContext, ValidateOperation};
+
+declare_id!("Examp1ePo1icy1111111111111111111111111111111");
+
+// Only this address may propose (create) vault transactions.
+const ALLOWED: Pubkey = pubkey!("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin");
+
+#[program]
+pub mod policy_single_creator {
+    use super::*;
+
+    pub fn validate<'a, 'b, 'c: 'info, 'info>(
+        ctx: Context<'a, 'b, 'c, 'info, Validate<'info>>,
+        operation: ValidateOperation,
+    ) -> Result<()> {
+        if let ValidateContext::Creation(c) = get_context(operation) {
+            c.validate_accounts(ctx.remaining_accounts)?;     // account-layout check
+            require_keys_eq!(
+                c.signer(ctx.remaining_accounts).key(),
+                ALLOWED,
+                Reject::NotCreator
+            );
+        }
+        Ok(()) // every non-Creation operation passes through
+    }
+}
+
+#[derive(Accounts)]
+pub struct Validate<'info> {
+    /// CHECK: account[0] is the read-only vault
+    pub vault: UncheckedAccount<'info>,
+}
+
+#[error_code]
+pub enum Reject {
+    #[msg("only the hard-coded creator may create txs")]
+    NotCreator,
+}
+```
+
+## Attaching it
+
+A vault adopts your policy by pointing its `policy_program` at your program id (via `update_vault_policy`, while transactions are disabled). Policy state lives in a PDA seeded by the vault (`seeds = [vault]`), so each vault carries an isolated configuration.
+
+<Note>
+Each shipped policy is a single-purpose building block, and a vault binds exactly one policy at a time. To enforce several constraints at once (owner-gated **and** amount-bounded **and** window-restricted), use a combinator policy that fans out to multiple checks — a planned addition.
+</Note>

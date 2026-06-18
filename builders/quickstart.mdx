@@ -1,0 +1,97 @@
+---
+title: "Quickstart"
+sidebarTitle: "Quickstart"
+description: "Install the SDK, connect to devnet, and create your first vault."
+---
+
+This quickstart gets you from zero to a working vault interaction on devnet.
+
+<Info>
+The `@hyro/sdk` package publishes to npm post-audit. Until then, build from [github.com/hyro-protocol](https://github.com/hyro-protocol).
+</Info>
+
+## Prerequisites
+
+<Steps>
+  <Step title="Node.js 18+">
+    Check with `node --version`.
+  </Step>
+  <Step title="A Solana wallet">
+    Phantom, or any keypair you control.
+  </Step>
+  <Step title="Devnet USDC">
+    Use a devnet faucet to fund your wallet.
+  </Step>
+</Steps>
+
+## Install
+
+```bash
+npm install @hyro/sdk @solana/web3.js
+```
+
+## Connect to devnet
+
+```typescript
+import { Connection, Keypair } from "@solana/web3.js";
+import { HyroClient } from "@hyro/sdk";
+
+const connection = new Connection("https://api.devnet.solana.com", "confirmed");
+
+// Load your keypair however you manage keys
+const wallet = Keypair.fromSecretKey(/* ... */);
+
+const hyro = new HyroClient({ connection, wallet });
+```
+
+## Create a vault
+
+```typescript
+const { vault, signature } = await hyro.createVault({
+  seed: "my-first-vault",
+  policyProgram: hyro.policies.allowAny,   // open policy for testing
+  feeCalcProgram: hyro.feeCalculators.fractions,
+});
+
+console.log("Vault PDA:", vault.toBase58());
+console.log("Tx:", signature);
+```
+
+<Warning>
+`allow_any` permits all operations — use it only on devnet for testing. Production vaults bind a real policy. See [Policy Programs](/reference/policy-programs).
+</Warning>
+
+## Deposit as an LP
+
+```typescript
+// Two-phase: request, then process
+await hyro.requestDeposit({ vault, amount: 1_000_000 }); // 1 USDC (6 decimals)
+await hyro.processDeposits({ vault });                   // mints shares at NAV
+```
+
+## Read vault state
+
+```typescript
+const state = await hyro.getVault(vault);
+
+console.log("NAV:", state.nav);
+console.log("AUM:", state.totalBalance);
+console.log("Policy:", state.policyAccount.toBase58());
+```
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Vault Operations" icon="vault" href="/builders/sdk/vault-operations">
+    Create, execute, and manage vault capital.
+  </Card>
+  <Card title="LP Operations" icon="arrow-right-arrow-left" href="/builders/sdk/lp-operations">
+    Deposits, withdrawals, and claiming fees.
+  </Card>
+  <Card title="Custom Policy" icon="shield-halved" href="/builders/custom-policy">
+    Author your own authorization rules.
+  </Card>
+  <Card title="AI Agents" icon="robot" href="/builders/ai-agents">
+    Deploy autonomous trading agents.
+  </Card>
+</CardGroup>

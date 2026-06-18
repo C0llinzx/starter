@@ -1,0 +1,109 @@
+---
+title: "Your First Challenge"
+sidebarTitle: "Your First Challenge"
+description: "A complete walkthrough — from signing in to your first funded payout."
+---
+
+This tutorial takes you through one full, successful path: sign in, buy a challenge, pass it, and request your first payout. Follow it once and you'll understand the whole trader surface.
+
+<Info>
+This walkthrough describes the launch flow. Challenge Vaults go live from Q4 2026. On devnet today, withdrawal timelocks are compressed to ~1 hour for testing.
+</Info>
+
+## 1. Sign in
+
+Go to [hyro.network](https://hyro.network) and choose how to sign in:
+
+<Tabs>
+  <Tab title="Email (easiest)">
+    Enter your email. A Solana wallet is generated for you automatically — no browser extension, no seed phrase to manage up front. You keep private-key control and can export to Phantom whenever you want.
+  </Tab>
+  <Tab title="Phantom (self-custody)">
+    Connect your existing Phantom wallet. Recommended for serious managers who want full self-custody from day one.
+  </Tab>
+</Tabs>
+
+## 2. Pick a size and pay
+
+Choose your account size and pay the evaluation fee in USDC.
+
+| Size | Simulated balance |
+|---|---|
+| Starter | 25,000 |
+| Standard | 50,000 |
+| Pro | 100,000 |
+
+When you pay:
+- The fee is recorded on-chain and lands in the **fee vault**.
+- The **rulebook version** is pinned to your challenge on-chain. The rules you signed up for are the rules you'll be evaluated against — even if the rulebook updates later.
+
+<Tip>
+You don't pay gas. Hyro sponsors the Solana transaction.
+</Tip>
+
+## 3. Connect Bybit and start trading
+
+Connect your Bybit account. Hyro provisions a demo account, and you trade under these rules:
+
+| Rule | Limit |
+|---|---|
+| Daily drawdown | 4% |
+| Max loss (trailing) | 6% |
+| Profit target | 10% |
+| Minimum trading days | 5 |
+| Profit concentration cap | 40% |
+
+A Rust engine monitors your account continuously. An oracle posts your equity and the pass/fail verdict to Solana.
+
+<Warning>
+The **5-day minimum** is deliberate. It forces multi-session demonstration of risk discipline and filters the single-trade exploit attempts that target firms with no minimum. Don't try to pass on one high-conviction trade.
+</Warning>
+
+<Check>
+**Pass:** you hit +10% without breaking a drawdown limit, across at least 5 trading days. You move to the funded demo at Tier 1.
+</Check>
+
+<Warning>
+**Fail:** you break a drawdown limit or violate a rule. The demo is canceled and the fee is not refunded.
+</Warning>
+
+## 4. Trade the funded demo (Tier 1)
+
+Once funded, you keep **80%** of all profits from 0% up to +15%, paid in real USDC.
+
+To request a payout:
+1. Submit the request via Phantom.
+2. The contract checks eligibility on-chain.
+3. USDC transfers from the **payout vault** to your wallet — with a TXID you can verify on Solana explorer.
+
+<Note>
+In v1, payouts go through a manual approval queue. Later this becomes an auto-approval with a safety window.
+</Note>
+
+## 5. Cross +15% — the dual-track unlocks
+
+When your cumulative demo profit crosses **+15%**, two things happen at once and your demo is **not** canceled:
+
+<Columns cols={2}>
+  <Card title="Demo continues (Tier 2)" icon="repeat">
+    Split shifts to 50/50 on incremental profit. Demo can scale +25% every 60 days, capped at 2×.
+  </Card>
+  <Card title="Real-capital vault opens" icon="vault">
+    Seeded by the firm, open to LP deposits, trading real money on Bybit. Split: 80% you / 15% LPs / 5% protocol.
+  </Card>
+</Columns>
+
+[Full detail on the vault unlock →](/traders/challenge/vault-unlock)
+
+## You're done
+
+You now understand the complete trader path. Next:
+
+<CardGroup cols={2}>
+  <Card title="Evaluation Rules" icon="list-check" href="/traders/challenge/rules">
+    Every rule, what it means, and how it's enforced.
+  </Card>
+  <Card title="Payouts" icon="money-bill-transfer" href="/traders/payouts">
+    How payouts work and how to verify them on-chain.
+  </Card>
+</CardGroup>

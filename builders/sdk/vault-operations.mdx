@@ -1,0 +1,80 @@
+---
+title: "SDK — Vault Operations"
+sidebarTitle: "Vault Operations"
+description: "Create, execute, and manage vault capital through the SDK."
+---
+
+Vault operations map to core instructions in the `hyro_protocol` program. Every privileged instruction is gated by a `validate` CPI into the vault's policy.
+
+## The security model
+
+A manager never signs as the vault. To act, the manager calls `create_tx` with a proposed CPI (target program, accounts, instruction data), which is stored in a Transaction PDA. The core then validates **creation**. Later, `execute_tx` validates **execution** and — only on approval — replays the proposed CPI under the vault's authority PDA.
+
+<Note>
+The manager holds execution rights under constraints, never custody. Two PDAs separate duties: `vault.authority` signs outbound capital, `vault_share_signer` mints/burns LP shares.
+</Note>
+
+## createVault
+
+Creates a new vault PDA with a chosen policy and fee calculator.
+
+```typescript
+const { vault, signature } = await hyro.createVault({
+  seed: "manager-vault-01",
+  policyProgram: hyro.policies.managerAccess,
+  feeCalcProgram: hyro.feeCalculators.fractions,
+});
+```
+
+| Param | Type | Description |
+|---|---|---|
+| `seed` | `string` | PDA seed (must be unique per authority) |
+| `policyProgram` | `PublicKey` | The authorization program this vault binds |
+| `feeCalcProgram` | `PublicKey` | The fee strategy this vault binds |
+
+## createTransaction / executeTransaction
+
+The two-phase pattern for any vault-authorized CPI.
+
+```typescript
+// Phase 1: propose
+const { transaction } = await hyro.createTransaction({
+  vault,
+  targetProgram: someProgram,
+  accounts: [...],
+  data: instructionData,
+});
+
+// Phase 2: execute (replays the proposed CPI as the vault, if policy approves)
+await hyro.executeTransaction({ vault, transaction });
+```
+
+## Fund management
+
+These move capital to and from the trading venue and record off-chain value.
+
+| Method | Validate op | Effect |
+|---|---|---|
+| `useFunds({ vault, amount })` | `UseFunds` | Move capital out to the venue (e.g. Bybit). Decrements on-chain balance, increments off-chain. |
+| `returnFunds({ vault, amount })` | `ReturnFunds` | Bring capital back on-chain. |
+| `reportOnFunds({ vault, nav })` | `Report` | Write NAV / off-chain balance. Moves no tokens — this is the oracle / bybit-sync update where performance fees crystallize. |
+
+```typescript
+// Manager deploys capital to the venue
+await hyro.useFunds({ vault, amount: 50_000_000 }); // 50 USDC
+
+// Oracle reports new NAV (performance fees crystallize here)
+await hyro.reportOnFunds({ vault, nav: 52_000_000 });
+```
+
+## updateVaultPolicy
+
+Swap the bound policy. Only allowed while transactions are disabled.
+
+```typescript
+await hyro.updateVaultPolicy({ vault, policyProgram: hyro.policies.multisig });
+```
+
+<Warning>
+Policy swaps are only permitted while the vault has transactions disabled — this prevents changing the rules out from under a pending operation.
+</Warning>

@@ -1,0 +1,68 @@
+---
+title: "Fee Architecture"
+sidebarTitle: "Fee Architecture"
+description: "Buckets, the two-hop CPI, charge vs. claim, and the high-water mark."
+---
+
+Fee logic is delegated the same way authorization is: the core hard-codes **where** fees may be charged, never **how much**. Charging a fee never moves tokens — it writes bookkeeping into an on-chain ledger; the actual transfer happens later, on an explicit claim.
+
+## The five charging avenues
+
+There is no other place the core can debit a vault:
+
+| Core instruction | Fee operation | Buckets it can populate |
+|---|---|---|
+| `process_deposits` | Deposit | lp · manager · protocol (+ performance) |
+| `process_withdrawals` | Withdraw | lp · manager · protocol (+ performance) |
+| `use_funds` | UseFunds | lp · manager · protocol (+ performance) |
+| `return_funds` | ReturnFunds | lp · manager · protocol (+ performance) |
+| `report_on_funds` | Deposit (NAV update) | performance crystallization on the new NAV |
+
+`report_on_funds` matters most: it's where the oracle writes reported equity, so it's where NAV-based performance fees crystallize.
+
+## The four buckets
+
+Every fee splits into **LP, manager, protocol, performance** — each with its own verified recipient. The performance bucket is high-water-mark-gated: a calculator charges only on equity above the prior mark and returns the new mark, so the same gain is never taxed twice.
+
+## Charge vs. claim
+
+<Columns cols={2}>
+  <Card title="Charge" icon="pen">
+    Called by the core on a fund op. Accrues into `unclaimed` and `total_collected`. **No tokens move.**
+  </Card>
+  <Card title="Claim" icon="hand-holding-dollar">
+    `claim_fees(fee_type, amount)` requires `recipient == recipients.get_recipient(fee_type)` and `amount ≤ unclaimed`, then moves the amount from `unclaimed` to `total_claimed`. The core executes the SPL transfer signing as `vault_share_signer`.
+  </Card>
+</Columns>
+
+## The dispatcher ledger
+
+```rust
+pub struct VaultFees {
+    pub vault: Pubkey,
+    pub fee_calc_program: Pubkey,   // swappable strategy
+    pub recipients: FeeRecipients,  // verified payout addresses, one per bucket
+    pub unclaimed: FeeAmounts,      // accrued, not yet paid out
+    pub total_collected: FeeAmounts,// lifetime charged
+    pub total_claimed: FeeAmounts,  // lifetime paid out
+    pub high_water_mark: u64,       // performance-fee baseline
+    pub last_update: i64,
+    pub bump: u8,
+}
+```
+
+The `total_collected` / `total_claimed` ledger makes every fee ever charged independently verifiable.
+
+## Balance identity
+
+A vault's total is a signed `i64`:
+
+```
+total = onchain_balance + offchain_balance − obtained_fees
+```
+
+The signed type lets a vault carry venue-side debt (capital deployed at the CEX) without underflow. Subtracting accrued-but-unclaimed fees keeps reported NAV net of fees at all times.
+
+<Card title="Build a custom calculator" icon="calculator" href="/builders/custom-fee-calculator" horizontal>
+  Implement calculate_fees with any fee model.
+</Card>

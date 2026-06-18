@@ -1,0 +1,52 @@
+---
+title: "Architecture Overview"
+sidebarTitle: "Architecture"
+description: "The stack, the on-chain/off-chain boundary, and how the pieces fit."
+---
+
+Hyro Protocol is a modular system: a small on-chain core, two pluggable on-chain layers, and an off-chain execution + oracle stack that writes results back to Solana.
+
+## The stack
+
+| Layer | Technology |
+|---|---|
+| Blockchain | Solana |
+| Smart contract framework | Anchor 0.31.1 |
+| Frontend | Next.js + TypeScript |
+| Oracle transport | NATS with JetStream |
+| Client SDK generation | Codama (from Anchor IDLs) |
+| Off-chain venue integration | CCXT (Bybit live; others in progress) |
+| Off-chain engine | Rust (HyroTrader core engine) |
+| Wallet — pro users | Phantom (self-custody) |
+| Wallet — retail | Embedded (email signup, auto-generated Solana wallet via Privy / Dynamic) |
+| Settlement currency | USDC (SPL) |
+| Gas | Sponsored by Hyro — users never need SOL |
+| Audit | Ackee Blockchain |
+
+## The dual-wallet UX
+
+Email-based account creation produces a Solana wallet automatically — no extension, removing onboarding friction for retail traders coming from CeFi. Sophisticated managers use Phantom for full self-custody. Users can export keys or migrate to Phantom at any time. Gas sponsorship is a fractional-cent operational cost on Solana that meaningfully improves UX.
+
+## On-chain vs. off-chain
+
+<Columns cols={2}>
+  <Card title="On-chain (Solana)" icon="link">
+    Vault state · authorization (policy programs) · fee calculation · share accounting · LP deposits/withdrawals · payout records · challenge-fee collection
+  </Card>
+  <Card title="Off-chain" icon="server">
+    Trade execution (Bybit order books) · the Rust risk engine · NAV computation, which the oracle writes back on-chain
+  </Card>
+</Columns>
+
+## How the layers connect
+
+The core program (`hyro_protocol`) holds vault state and orchestrates two pluggable layers over CPI:
+
+1. **Authorization** — every privileged instruction issues a `validate(ValidateOperation)` CPI into the vault's policy.
+2. **Fee calculation** — every fund movement issues a `charge_fees` CPI to the fee dispatcher, which delegates arithmetic to a calculator.
+
+Neither is hard-coded. Each vault stores only the pubkeys of its `policy_program` and `fee_collection_program`, and both are swappable.
+
+<Card title="Program topology" icon="diagram-project" href="/reference/program-topology" horizontal>
+  How the on-chain programs connect, instruction by instruction.
+</Card>

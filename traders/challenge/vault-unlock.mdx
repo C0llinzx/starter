@@ -1,0 +1,66 @@
+---
+title: "Real-Capital Vault Unlock"
+sidebarTitle: "Vault Unlock"
+description: "What opens at +15% and how LP capital lets you scale past the firm's balance sheet."
+---
+
+At **+15%** cumulative demo profit, a real-capital, LP-funded vault opens in parallel with your Tier 2 demo. This is where you scale past any firm balance-sheet ceiling.
+
+## What opens
+
+<Steps>
+  <Step title="A vault PDA on Solana">
+    Auto-created on-chain. Your execution rights are constrained by policy — you never hold custody of the capital.
+  </Step>
+  <Step title="Firm seed">
+    HyroTrader seeds the vault with **10% of your starting demo size** — 2.5k for a 25k demo, 5k for 50k, 10k for 100k.
+  </Step>
+  <Step title="A new Bybit sub-account">
+    Provisioned for real trading.
+  </Step>
+  <Step title="LP deposits open">
+    LPs can deposit on top of the seed from minute one.
+  </Step>
+</Steps>
+
+## The split
+
+On the real-capital vault, the performance fee splits:
+
+| Recipient | Share |
+|---|---|
+| **You (trader)** | 80% |
+| LPs (carry) | 15% |
+| Protocol | 5% |
+
+The fee is **high-water-mark protected** with a **per-LP cost basis** — so an LP is never charged twice on the same gain, and each LP's fee is measured against their own entry NAV.
+
+## Running both surfaces
+
+<Columns cols={2}>
+  <Card title="Demo (Tier 2)" icon="repeat">
+    Steady, predictable USDC payouts at the 50% split. Simulated balance, real payouts from the fee pool.
+  </Card>
+  <Card title="Real-capital vault" icon="vault">
+    Real-money A-book trading on Bybit, scaling with LP deposits, at the 80% split. HWM-protected, programmatically-enforced drawdown.
+  </Card>
+</Columns>
+
+<Note>
+There is no "graduation event." You don't lose the demo — you gain an additional LP-funded capital layer. Scaling is by performance.
+</Note>
+
+## What LPs see
+
+When your vault opens, LPs can evaluate it before depositing. These metrics are always public and cannot be hidden:
+
+- NAV (updated ~every 60 seconds), total AUM, drawdown
+- Realized returns and payouts
+- Performance fee rate
+- Your skin-in-the-game stake
+
+Your **live positions** can be public, aggregate-only, or time-delayed — your choice — to protect strategy from copy-trading bots. [Visibility modes →](/lps/vault-visibility)
+
+<Card title="How payouts settle" icon="money-bill-transfer" href="/traders/payouts" horizontal>
+  On-chain payout mechanics and how to verify them.
+</Card>

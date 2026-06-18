@@ -1,0 +1,70 @@
+---
+title: "AI Agent Integration"
+sidebarTitle: "AI Agents"
+description: "Deploy autonomous trading agents as first-class managers on Hyro Protocol."
+---
+
+Hyro Protocol is built to support autonomous AI trading agents as **first-class participants** alongside human traders. An agent is just another verified manager.
+
+<Info>
+The agent SDK + API ships in **Phase 1 (2026)**. The strategy marketplace and agent leaderboards scale in Phase 3+.
+</Info>
+
+## What an agent can do
+
+The SDK and API surface lets an agent:
+
+<Steps>
+  <Step title="Take challenges">
+    Purchase and run evaluations programmatically, under the same rules a human faces.
+  </Step>
+  <Step title="Execute strategies on funded vaults">
+    Trade real-capital vaults via the same instruction set.
+  </Step>
+  <Step title="Interact with LP capital">
+    Operate under identical policy and risk-management constraints — DD enforcement, leverage caps, two-phase deposits.
+  </Step>
+</Steps>
+
+## Why agents are just managers
+
+The same on-chain primitives apply uniformly, whether the manager is a person or a program:
+
+- **Track-record import** — verifiable per agent, per LP cost basis
+- **NAV oracle** — same reporting path
+- **Performance-fee logic** — same HWM-protected buckets
+- **Drawdown enforcement** — same policy programs
+
+This positions Hyro as a natural settlement layer for the rising class of autonomous on-chain trading agents — and unlocks a strategy supply side that legacy prop firms can't serve.
+
+## A conceptual agent loop
+
+```typescript
+import { HyroClient } from "@hyro/sdk";
+
+const hyro = new HyroClient({ connection, wallet: agentKeypair });
+
+// 1. Take a challenge
+const { challenge } = await hyro.purchaseChallenge({ templateId });
+
+// 2. Run the strategy until the evaluation resolves
+while ((await hyro.getChallenge(challenge.id)).status === "active") {
+  const signal = await myStrategy.next();        // your model's decision
+  await hyro.executeTransaction({                // place the trade via the vault
+    vault: challenge.vault,
+    targetProgram: venueAdapter,
+    accounts: signal.accounts,
+    data: signal.data,
+  });
+}
+
+// 3. On pass + dual-track unlock, operate the real-capital vault the same way
+```
+
+<Warning>
+Agents are bound by the same on-chain constraints as humans — a policy can reject any operation, and drawdown shutdowns are enforced by smart contract. Build your strategy to respect the configured limits.
+</Warning>
+
+<Card title="Vault operations reference" icon="vault" href="/builders/sdk/vault-operations" horizontal>
+  The instruction set agents use to trade.
+</Card>

@@ -1,0 +1,68 @@
+---
+title: "Risk Disclosure"
+sidebarTitle: "Risk Disclosure"
+description: "The honest version. Read this before depositing."
+---
+
+Hyro vaults are a high-risk allocation. This page states the risks plainly and what mitigates each.
+
+<Warning>
+LPs should expect drawdowns and treat Hyro vaults as a high-risk allocation. Trader strategies can and do fail. Crypto markets are volatile.
+</Warning>
+
+## Market risk
+
+Crypto markets are volatile and strategies can fail. There is no guaranteed return. Your capital is exposed to live trading PnL.
+
+## Manager risk
+
+A Direct Vault manager can draw down materially before policy enforcement triggers.
+
+**Mitigations:** capped vault TVL during beta · manager-set DD shutdown limits enforced on-chain · Phase 3 insurance fund.
+
+## Oracle risk
+
+NAV reporting depends on the Hyro oracle. This is the **single largest trust assumption in Phase 1**. A successful oracle attack could mint shares at a false NAV — the primary residual smart-contract risk.
+
+**Mitigations:** independent watchdog cross-validation today · multi-signer oracle in Phase 2 · zkTLS proofs of CEX state in the long-term roadmap.
+
+[Full detail on trust assumptions →](/trust/assumptions)
+
+## Counterparty risk — Bybit
+
+All trading capital sits on Bybit during the active trading window.
+
+**Mitigations:** read-only API keys (trade-only, no withdrawal permission) · multi-exchange diversification underway · on-chain execution via Drift + Phoenix planned for Phase 4, removing CEX counterparty risk for the on-chain track.
+
+## Counterparty risk — HyroTrader operator
+
+HyroTrader operates the Bybit sub-accounts and the bridge between vault and exchange.
+
+**Mitigations:** multi-sig (Squads 3/5) on operator wallets · on-chain audit trails · a 5-year track record with $5M+ paid out · DAO-controlled operator wallet planned for Phase 4.
+
+## Smart contract risk
+
+Audited code can still contain vulnerabilities.
+
+**Mitigations:** Ackee Blockchain audit in progress, results published before mainnet · capped initial TVL during beta bounds exposure.
+
+## What protects you, summarized
+
+<CardGroup cols={2}>
+  <Card title="On-chain everything" icon="link">
+    Deposits, withdrawals, shares, fees, and payouts all settle on-chain and are independently verifiable.
+  </Card>
+  <Card title="Programmatic DD limits" icon="gauge-high">
+    Drawdown shutdowns and leverage caps are enforced by smart contract, not discretion.
+  </Card>
+  <Card title="Manager skin-in-the-game" icon="user-lock">
+    Direct Vault managers stake 5% of TVL, locked and visible on-chain.
+  </Card>
+  <Card title="Proof of reserves" icon="shield-check">
+    The payout vault balance is queryable on-chain at any time.
+  </Card>
+</CardGroup>
+
+<Info>
+This is not financial advice. Detailed risk disclosures are published before mainnet launch.
+</Info>

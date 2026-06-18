@@ -1,0 +1,41 @@
+---
+title: "Policy Programs"
+sidebarTitle: "Policy Programs"
+description: "The eight shipped policies, their program IDs, and what each enforces."
+---
+
+Authorization is delegated, per operation, to a vault's configured policy. The same `validate` interface is implemented by eight interchangeable policies, hot-swappable via `update_vault_policy` (only while transactions are disabled).
+
+## The shipped policies
+
+| Policy | Use case | Program ID |
+|---|---|---|
+| `policy_owners` | Gate by an owner set stored in the policy PDA | `HyroXELvGkzBwgKz2Fsz2XEMDM6TYupZZ1A9qAtEM9Qs` |
+| `policy_manager_access` | Manager-set gating for fund operations | Live on devnet |
+| `policy_multisig` | On-chain M-of-N signature gating | Live on devnet |
+| `policy_limit_transfer` | Min/max transfer bounds; drawdown / size cap | `7tSgfcgnfsPjogCSHP5BDe48vWFRMDddaC5KtEgsGvxb` |
+| `policy_withdrawal_window` | Restrict `ProcessWithdrawals` to periodic windows | Live on devnet |
+| `policy_challenges` | The prop-firm challenge engine; authorizes oracle NAV reports | `HyrowgoRRXfq1vwN5CTynd6keUAkm1kn2adRNqjTScwM` |
+| `policy_allow_any` | Permit all (testing) | `xrs3my6WB4KNyc9g7H2LCKCmUXUFJydyr5Un9AFTD1t` |
+| `policy_deny_all` | Block all (emergency stop) | `HmRxhUgc4rNR5dpzZvnBJYGUsL6a8w7keDr1hb8qAzCo` |
+
+## What policies enforce on creation & execution
+
+| Policy | On Creation | On Execution |
+|---|---|---|
+| `policy_owners` | PDA check | require signer ∈ owners |
+| `policy_manager_access` | require signer == admin | require signer == admin |
+| `policy_multisig` | reject if a tx is pending; record pending + proposer's bit | require set-bits ≥ threshold, then clear |
+| `policy_limit_transfer` | PDA check | decode proposed amount; require min ≤ amount ≤ max |
+| `policy_allow_any` | allow | allow |
+| `policy_deny_all` | allow | reject (freeze) |
+
+Rejections surface as typed errors: `TransactionAlreadyPending`, `NotEnoughSigners`, `AmountTooHigh` / `AmountTooLow`, `UnauthorizedSender`.
+
+## The challenge policy and the oracle
+
+`policy_challenges` is special: it authorizes the oracle's NAV reports. Its `validate(Report)` reads the `ChallengeTemplate` and requires `template.admin == signer` — so only the designated oracle (the template admin) may push NAV for a challenge-bound vault. This is what makes the oracle trustworthy.
+
+<Note>
+Each policy constrains only the operations it cares about; the rest pass through. To enforce several constraints at once, a combinator policy (planned) fans out to multiple checks. A vault binds exactly one policy at a time.
+</Note>
