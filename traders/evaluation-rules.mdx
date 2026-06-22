@@ -11,7 +11,7 @@ These rules are encoded in smart contracts and pinned to your challenge at purch
 | Rule | Limit | What it means |
 |---|---|---|
 | Daily drawdown | 4% | Your equity can't drop more than 4% from the day's starting balance |
-| Max loss (trailing) | 6% | Your equity can't drop more than 6% from its trailing peak |
+| Max loss | 6% (static) | Your equity can't drop more than 6% below your starting balance |
 | Profit target | 10% | You pass when you reach +10% |
 | Minimum trading days | 5 | You must trade on at least 5 distinct days |
 | Profit concentration cap | 40% | No single trade can account for more than 40% of total profit |
@@ -42,7 +42,7 @@ Your evaluation runs under a specific rulebook version (e.g. `v1.0`). The versio
 - Challenges purchased under `v1.0` are evaluated against `v1.0` rules **even after** `v1.1` is published.
 - Every rule change is documented in a public changelog with date, scope, and rationale.
 
-[How the versioned rulebook works →](/trust/rulebook)
+[How the versioned rulebook works →](/resources/decentralization)
 
 ## Outcomes
 
@@ -54,6 +54,6 @@ Your evaluation runs under a specific rulebook version (e.g. `v1.0`). The versio
 **Fail** — you break a drawdown limit or violate a rule. The demo is canceled and the evaluation fee is not refunded.
 </Warning>
 
-<Card title="Next: the funded demo" icon="arrow-right" href="/traders/challenge/funded-demo" horizontal>
+<Card title="Next: the funded demo" icon="arrow-right" href="/traders/funded-demo" horizontal>
   What changes once you pass, and how Tier 1 / Tier 2 splits work.
 </Card>

@@ -4,7 +4,7 @@ sidebarTitle: "How It Works"
 description: "The full flow in plain language — from challenge to funded vault to LP carry."
 ---
 
-This page walks through the whole system at a high level. For role-specific detail, jump to [For Traders](/traders/getting-started), [For LPs](/lps/getting-started), or [For Builders](/builders/overview).
+This page walks through the whole system at a high level. For role-specific detail, jump to [For Traders](/traders/getting-started), [For LPs](/lps/why-lps-participate), or [For Builders](/reference/architecture).
 
 ## The trader journey
 
@@ -30,7 +30,7 @@ This page walks through the whole system at a high level. For role-specific deta
 
 An LP deposits USDC into a vault and receives **vault shares** minted at the current NAV. Their capital is routed to the manager's Bybit sub-account, the manager trades, and the LP earns carry on profits the trader generates. When the LP withdraws, shares are burned and USDC is returned at the prevailing NAV — with a high-water-mark-protected performance fee crystallizing on realized gains.
 
-[Read the LP flow in detail →](/lps/depositing-withdrawing)
+[Read the LP flow in detail →](/lps/deposits-withdrawals)
 
 ## What's on-chain vs. off-chain
 
@@ -46,7 +46,7 @@ Hyro is explicit about this boundary — it's the single most important thing fo
 </CardGroup>
 
 <Warning>
-NAV reporting currently depends on oracle infrastructure operated by Hyro. This is the **largest trust assumption in Phase 1**, and it's disclosed plainly. See [Trust Assumptions](/trust/assumptions).
+NAV reporting currently depends on oracle infrastructure operated by Hyro. This is the **largest trust assumption in Phase 1**, and it's disclosed plainly. See [Trust Assumptions](/resources/decentralization).
 </Warning>
 
 ## The oracle, briefly
@@ -59,6 +59,6 @@ A NATS/JetStream message queue reads Bybit sub-account equity and posts NAV upda
 
 Execution starts on Bybit and progressively expands to other CEXes, then to on-chain Solana DEXes (Drift, Phoenix) in Phase 4 — removing CEX counterparty risk entirely for the on-chain track. The protocol decentralizes in stages: decentralized capital and programmatic rules today, permissionless trader onboarding next, on-chain execution after that.
 
-<Card title="The Dual-Track Model" icon="code-branch" href="/protocol/dual-track" horizontal>
+<Card title="The Dual-Track Model" icon="git-branch" href="/traders/dual-track" horizontal>
   The mechanic that removes the artificial scaling cap — explained in full.
 </Card>

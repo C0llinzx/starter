@@ -1,0 +1,47 @@
+---
+title: "Validation CPI"
+sidebarTitle: "Validation CPI"
+description: "The validate(ValidateOperation) interface, discriminator, account layout, and the 13 operations."
+---
+
+Every privileged instruction delegates its authorization decision to the vault's policy program through one uniform cross-program call. The contract is deliberately minimal, so any program that implements it can serve as a policy.
+
+## The wire contract
+
+| Element | Value |
+|---|---|
+| Discriminator | Hand-rolled 8-byte `VALIDATE_DISCRIMINATOR` = `[60,252,90,66,246,253,232,139]` (not an Anchor sighash) |
+| Instruction data | `VALIDATE_DISCRIMINATOR ‖ borsh(ValidateOperation)` — a single-byte op code (0–12) |
+| Accounts | `account[0]` is always the read-only `vault`; the rest follow a fixed per-operation layout from `hyro_sdk::get_context` |
+| Invocation | The core uses an unsigned `invoke` (never `invoke_signed`) — a policy can read and decide, but can never move funds |
+| Failure | If the policy returns `Err`, the entire core instruction reverts — authorization is all-or-nothing |
+
+Policy state lives in a PDA seeded by the vault (`seeds = [vault]`) under the policy's own program id, so each vault carries an isolated policy configuration. Operations a policy doesn't constrain return `Ok` (pass-through).
+
+## The 13 operations
+
+Thirteen core instructions each issue exactly one `validate(ValidateOperation)` CPI, with a 1:1 mapping between instruction and operation variant.
+
+| Core instruction | validate(…) | What it gates |
+|---|---|---|
+| `create_tx` | Creation | Propose a CPI into a Transaction PDA |
+| `execute_tx` | Execution | Replay the proposed CPI as the vault |
+| `request_deposit` | RequestDeposit | Open a deposit (escrow underlying) |
+| `process_deposits` | ProcessDeposits | Settle deposit → mint LP shares |
+| `approve_deposit_request` | ApproveDeposit | Approve a pending deposit |
+| `reject_deposit_request` | RejectDeposit | Reject / refund a deposit |
+| `request_withdrawal` | RequestWithdrawal | Open a withdrawal (escrow shares) |
+| `process_withdrawals` | ProcessWithdrawals | Settle withdrawal → burn shares, pay out |
+| `approve_withdrawal_request` | ApproveWithdrawal | Approve a pending withdrawal |
+| `reject_withdrawal_request` | RejectWithdrawal | Reject / return escrowed shares |
+| `use_funds` | UseFunds | Move capital out to the venue (e.g. Bybit) |
+| `return_funds` | ReturnFunds | Bring capital back on-chain |
+| `report_on_funds` | Report | Write NAV / off-chain balance (oracle) |
+
+## Failure semantics
+
+Rejections surface as typed errors — `TransactionAlreadyPending`, `NotEnoughSigners`, `AmountTooHigh` / `AmountTooLow`, `UnauthorizedSender` — and either revert `create_tx` or leave `did_execute` false on `execute_tx`. Authorization leaves no partial state.
+
+<Card title="Build a custom policy" icon="shield-half" href="/builders/custom-policy" horizontal>
+  Implement this interface with a complete Rust skeleton.
+</Card>

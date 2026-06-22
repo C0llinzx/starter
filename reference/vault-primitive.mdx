@@ -1,0 +1,67 @@
+---
+title: "The Vault Primitive"
+sidebarTitle: "The Vault Primitive"
+description: "The core Vault and Transaction structs, PDAs, and the non-custodial security triangle."
+---
+
+The vault is the heart of the protocol — a PDA that holds state and delegates authorization and fees to pluggable programs. A manager has execution rights under constraints, never direct fund control.
+
+## The Vault struct
+
+```rust
+pub struct Vault {
+    pub policy_account: Pubkey, // Pluggable validation program
+    pub seed: String,           // PDA seed
+    pub authority: Pubkey,      // Manager address
+}
+```
+
+Vaults are PDAs with customizable seeds. The `policy_account` points at the authorization program; the `authority` is the manager who can propose and execute transactions under that policy's constraints.
+
+## The Transaction struct
+
+```rust
+pub struct Transaction {
+    pub nonce: u64,
+    pub did_execute: bool,
+    pub vault: Pubkey,
+    pub program_id: Pubkey,
+    pub data: Vec<u8>,
+    pub accounts: Vec<TransactionAccount>,
+}
+```
+
+A proposed CPI is stored in a Transaction PDA before it can execute. `did_execute` is a one-shot replay guard.
+
+## PDAs explained
+
+A Program-Derived Address is a deterministic Solana address derived from a program plus a seed — it has no private key, so only the owning program can sign for it. Hyro uses two distinct PDAs to separate duties:
+
+| PDA | Seeds | Role |
+|---|---|---|
+| `vault.authority` | `[vault]` | Signs outbound capital and executed CPIs |
+| `vault_share_signer` | `["vault_share_signer", vault]` | Owns the vault token account, mints/burns LP shares |
+
+## The non-custodial security triangle
+
+A manager **never signs as the vault**. To act, the manager:
+
+<Steps>
+  <Step title="Proposes via create_tx">
+    Calls `create_tx` with a proposed CPI — target program id, accounts, and instruction data — stored in a Transaction PDA. The core fires `validate(Creation)`, which the policy may reject.
+  </Step>
+  <Step title="Executes via execute_tx">
+    Later, `execute_tx` fires `validate(Execution)` and, only on approval, replays the proposed CPI with `invoke_signed` under the vault's authority PDA.
+  </Step>
+</Steps>
+
+The manager holds execution rights under constraints, never custody. The proposal and its execution are authorized independently — this is the multisig-like pattern at the core of the protocol.
+
+<CardGroup cols={2}>
+  <Card title="Validation CPI" icon="shield-check" href="/reference/validate-cpi">
+    The validate interface, in detail.
+  </Card>
+  <Card title="Program topology" icon="git-fork" href="/reference/program-topology">
+    How the programs connect.
+  </Card>
+</CardGroup>

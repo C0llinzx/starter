@@ -1,0 +1,79 @@
+---
+title: "Eligibility & Application"
+sidebarTitle: "Eligibility & Application"
+description: "Criteria, the application process, and requirements by applicant type."
+---
+
+Direct Vault managers qualify on track record, not a challenge. Here's what's required and how to apply.
+
+## The four pillars
+
+<Steps>
+  <Step title="Track record">
+    6 months minimum continuous history · $50,000+ realized PnL · max drawdown under 15% trailing 6 months · Sharpe > 1.0 or comparable.
+  </Step>
+  <Step title="Identity">
+    KYC for individuals, KYB for entities. Source-of-funds attestation required for entity applicants.
+  </Step>
+  <Step title="Strategy disclosure">
+    What you trade, time horizon, leverage approach, and risk parameters.
+  </Step>
+  <Step title="Manager commitment">
+    A 5% skin-in-the-game stake (of expected initial TVL), locked 3 months minimum, publicly visible on-chain.
+  </Step>
+</Steps>
+
+## Eligibility at a glance
+
+| Requirement | Value |
+|---|---|
+| Verifiable trading history | 6 months minimum, continuous |
+| Track record import | Read-only API key OR cryptographically signed snapshot |
+| Realized PnL | $50,000+ over the verifiable period |
+| Max drawdown | Under 15% trailing 6 months |
+| Risk-adjusted metric | Sharpe > 1.0 or comparable |
+| Identity check | KYC (individuals) · KYB (entities) |
+| Geographic eligibility | US retail, UK retail, sanctioned territories excluded |
+
+## Application process
+
+<Steps>
+  <Step title="Apply online">
+    Submit track record, strategy, and identity documents at hyro.network.
+  </Step>
+  <Step title="Admin review (1–2 weeks)">
+    Track-record verification and strategy assessment.
+  </Step>
+  <Step title="KYC / KYB (1–2 weeks, parallel)">
+    Processed by a qualified third-party provider.
+  </Step>
+  <Step title="Strategy interview (~1 hour)">
+    Video call with the Head of Trading or a designated reviewer.
+  </Step>
+  <Step title="Decision">
+    Final approval or structured feedback.
+  </Step>
+</Steps>
+
+**Typical total: 3–5 weeks** from application to vault opening.
+
+## By applicant type
+
+The framework adapts to four classes; eligibility is the same, but documentation and review depth scale with entity complexity:
+
+| Type | Additional requirements |
+|---|---|
+| Individual traders | Personal KYC, personal track record, personal stake |
+| Funds, partnerships, RIAs | KYB; entity as manager; named principals attested; fund-structure docs |
+| Algorithmic trading desks | KYB + optional code review for senior TVL tiers; algo logic disclosed at a high level |
+| Market makers | KYB + inventory-transparency commitment |
+
+## Backtest disclosure
+
+<Note>
+Backtests are **optional and LP-facing only**. They're displayed alongside live performance so LPs can compare your stated framework against live results — but they're **never used for protocol enforcement**. Markets change and strategies deviate from backtests; outperforming or underperforming a backtest never triggers enforcement. Decisions are based on live performance and the on-chain risk limits you set.
+</Note>
+
+<Card title="Next: configure your vault" icon="settings" href="/managers/vault-configuration" horizontal>
+  Every parameter you control at creation.
+</Card>

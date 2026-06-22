@@ -1,0 +1,44 @@
+---
+title: "Audit & Security"
+sidebarTitle: "Audit & Security"
+description: "How Hyro Protocol is audited and secured."
+---
+
+Security is layered: an external smart-contract audit, multi-sig controls on fund movement, institutional custody, and oracle safeguards.
+
+## Smart contract audit
+
+<Card title="Ackee Blockchain" icon="search">
+  Hyro Protocol's Solana programs are audited by **Ackee Blockchain** (Czech-based, OtterSec-tier quality). The engagement is in progress, and the full report is published **before mainnet**.
+</Card>
+
+Capped initial TVL during the beta period bounds exposure while the audit completes and the protocol proves itself in production.
+
+## The security stack
+
+<CardGroup cols={2}>
+  <Card title="Squads multisig" icon="users">
+    A 3/5 multisig (Squads) governs all operator-wallet fund movement. No single key controls capital.
+  </Card>
+  <Card title="Fireblocks custody" icon="vault">
+    Institutional custody for the centralized execution leg.
+  </Card>
+  <Card title="Oracle watchdog" icon="eye">
+    An independent watchdog reader (separate server, key, region) cross-validates every NAV report.
+  </Card>
+  <Card title="Read-only API keys" icon="key">
+    Trader Bybit sub-accounts use trade-only keys — no withdrawal permission.
+  </Card>
+</CardGroup>
+
+## Smart-contract security patterns
+
+- PDA-based account architecture prevents address collisions
+- Feature flags enable gradual rollout and emergency controls
+- Comprehensive input validation in every instruction
+- Anchor framework's built-in security patterns
+- Withdrawal-pause circuit breakers on oracle anomalies
+
+<Card title="Decentralization status" icon="git-fork" href="/resources/decentralization" horizontal>
+  What's on-chain today, and the path to removing each trust assumption.
+</Card>

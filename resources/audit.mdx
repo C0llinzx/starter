@@ -1,0 +1,35 @@
+---
+title: "Audit"
+sidebarTitle: "Audit"
+description: "The Ackee Blockchain engagement and security stack."
+---
+
+## Ackee Blockchain
+
+Hyro Protocol's Solana programs are audited by **Ackee Blockchain** — Czech-based, OtterSec-tier quality.
+
+| | |
+|---|---|
+| Auditor | Ackee Blockchain (ackee.xyz) |
+| Status | Engagement in progress |
+| Report | Published before mainnet |
+| Scope | Core program, policy programs, fee collection, vault mechanics |
+
+<Info>
+The full audit report will be linked here once published. Capped initial TVL during beta bounds exposure while the audit completes.
+</Info>
+
+## Security stack
+
+| Mechanism | What it protects |
+|---|---|
+| Squads 3/5 multisig | Operator-wallet fund movement — no single key controls capital |
+| Fireblocks | Institutional custody for the centralized execution leg |
+| Oracle watchdog | Independent reader cross-validates every NAV report |
+| Read-only API keys | Trader Bybit sub-accounts (trade-only, no withdrawal) |
+| Withdrawal circuit breakers | Pause on oracle anomaly (>2% NAV divergence, >5min API downtime) |
+| Capped beta TVL | Bounds exposure during early operation |
+
+<Card title="Decentralization status" icon="git-fork" href="/resources/decentralization" horizontal>
+  What's on-chain today and the roadmap to remove each trust assumption.
+</Card>

@@ -1,30 +1,307 @@
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.5); }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(128, 128, 128, 0.3);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(128, 128, 128, 0.5);
-}
-
+/* ── Purple orb (top-left) ── */
 body::before {
   content: '';
   position: fixed;
-  top: -300px;
-  left: -300px;
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(133, 46, 255, 0.08) 0%, transparent 60%);
+  top: -300px; left: -300px;
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(133,46,255,0.08) 0%, transparent 60%);
   filter: blur(60px);
   pointer-events: none;
   z-index: 9999;
+}
+
+/* ── Body text size (16px) ── */
+#content p, #content li, #content span:not(.sidebar-title) {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* ── Vertical rhythm (text elements only — no container widths) ── */
+#content p {
+  margin-bottom: 1.1em;
+}
+#content h2 {
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+  font-weight: 500;
+}
+#content h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.4em;
+}
+#content h4 {
+  margin-top: 1.25em;
+  margin-bottom: 0.3em;
+}
+
+/* ============ Light mode (default) ============ */
+
+#content p {
+  color: #111827;
+}
+#content h1, #content h2, #content h3, #content h4, #content h5, #content h6 {
+  color: #030712;
+}
+#content a:not(.card *) {
+  color: #7C3AED;
+}
+#content a:not(.card *):hover {
+  color: #6D28D9;
+}
+
+.text-gray-400, .text-gray-500, .text-gray-600,
+table th, table td, figcaption, label {
+  color: #6B7280 !important;
+}
+
+/* Card surfaces — only individual cards, not CardGroup wrapper */
+.card {
+  background: transparent !important;
+  border-color: #E5E7EB !important;
+}
+.card strong {
+  font-weight: normal;
+  color: #111827;
+}
+.dark .card strong {
+  color: #ADB0B9;
+}
+
+hr, [class*="divider"] {
+  border-color: #E5E7EB !important;
+}
+
+/* Sidebar icons — light mode */
+#sidebar .sidebar-group a svg,
+#sidebar .sidebar-group a .icon {
+  color: #9CA3AF;
+  transition: color 0.15s ease;
+}
+#sidebar .sidebar-group a:hover svg,
+#sidebar .sidebar-group a:hover .icon,
+#sidebar .sidebar-group a[aria-current="page"] svg,
+#sidebar .sidebar-group a[aria-current="page"] .icon {
+  color: #7C3AED;
+}
+.card svg {
+  color: #9CA3AF;
+  transition: color 0.15s ease;
+}
+.card:hover svg {
+  color: #7C3AED;
+}
+
+/* ============ Dark mode ============ */
+
+.dark #content p {
+  color: #ADB0B9;
+}
+.dark #content h1, .dark #content h2, .dark #content h3,
+.dark #content h4, .dark #content h5, .dark #content h6 {
+  color: rgba(255,255,255,0.8);
+}
+.dark #content a:not(.card *) {
+  color: #B388FF;
+}
+.dark #content a:not(.card *):hover {
+  color: #C9B3FF;
+}
+
+.dark .text-gray-400, .dark .text-gray-500, .dark .text-gray-600,
+.dark table th, .dark table td, .dark figcaption, .dark label {
+  color: #767A86 !important;
+}
+
+.dark .card {
+  background: transparent !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+.dark hr, .dark [class*="divider"] {
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+.dark #sidebar .sidebar-group a svg,
+.dark #sidebar .sidebar-group a .icon {
+  color: #767A86;
+  transition: color 0.15s ease;
+}
+.dark #sidebar .sidebar-group a:hover svg,
+.dark #sidebar .sidebar-group a:hover .icon,
+.dark #sidebar .sidebar-group a[aria-current="page"] svg,
+.dark #sidebar .sidebar-group a[aria-current="page"] .icon {
+  color: #852EFF;
+}
+.dark .card svg {
+  color: #767A86;
+  transition: color 0.15s ease;
+}
+.dark .card:hover svg {
+  color: #852EFF;
+}
+
+/* ── Callout colors (Check + Warning only) ── */
+
+[class*="callout"][class*="check"],
+.check {
+  --callout-text: #4DBE95;
+  --callout-bg: rgba(77,190,149,0.05);
+  --callout-border: rgba(77,190,149,0.15);
+  background: var(--callout-bg) !important;
+  color: var(--callout-text) !important;
+  border-color: var(--callout-border) !important;
+}
+[class*="callout"][class*="check"] svg {
+  color: #4DBE95 !important;
+}
+
+[class*="callout"][class*="warning"] {
+  --callout-text: #F0B84C;
+  --callout-bg: rgba(240,184,76,0.05);
+  --callout-border: rgba(240,184,76,0.15);
+  background: var(--callout-bg) !important;
+  color: var(--callout-text) !important;
+  border-color: var(--callout-border) !important;
+}
+[class*="callout"][class*="warning"] svg {
+  color: #F0B84C !important;
+}
+
+/* ── Pagination: individual bordered cards ── */
+#pagination a {
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 20px 24px;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+.dark #pagination a {
+  border-color: rgba(255,255,255,0.12);
+}
+#pagination a svg {
+  display: none !important;
+}
+#pagination a div {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+#pagination a:first-child {
+  align-items: flex-start !important;
+}
+#pagination a:first-child::before {
+  content: 'Previous';
+  font-size: 13px;
+  color: #6B7280;
+  margin-bottom: 4px;
+}
+.dark #pagination a:first-child::before {
+  color: rgba(255,255,255,0.5);
+}
+#pagination a:last-child {
+  align-items: flex-end !important;
+  text-align: right;
+}
+#pagination a:last-child::before {
+  content: 'Next';
+  font-size: 13px;
+  color: #6B7280;
+  margin-bottom: 4px;
+}
+.dark #pagination a:last-child::before {
+  color: rgba(255,255,255,0.5);
+}
+/* ── Home page: section headings 24px ── */
+#choose-your-path,
+#what-makes-it-different {
+  font-size: 24px !important;
+}
+.dark #choose-your-path,
+.dark #what-makes-it-different {
+  color: rgba(255,255,255,0.8) !important;
+}
+
+/* ── Note component font size ── */
+[data-component-part="callout-content"].text-blue-800 {
+  font-size: 14px;
+}
+
+/* ── Card title hierarchy ── */
+.card h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #030712;
+}
+.dark .card h3 {
+  color: rgba(255,255,255,0.7);
+}
+
+/* ── Nav container flush with viewport edges ── */
+#navbar > div:first-child {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ── Sidebar 12px from viewport left edge ── */
+#sidebar {
+  left: 12px;
+}
+
+/* ── TOC 12px from viewport right edge ── */
+#content-side-layout {
+  position: fixed;
+  right: 12px;
+}
+#content-side-layout a[aria-current="true"]::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #852EFF;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* ── Reduce outer content container width ── */
+.max-w-8xl.mx-auto.relative {
+  max-width: 80rem;
+}
+
+/* ── Center content to viewport, cap at 1200px ── */
+#content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-left: -88px;
+}
+
+/* ── Remove card backgrounds on home page sections (outline only) ── */
+#choose-your-path + div .card,
+#what-makes-it-different + div .card {
+  background: transparent !important;
+}
+
+/* ── Tighter padding for icon-less cards ── */
+#what-makes-it-different + div .card > div:first-child {
+  padding-top: 0 !important;
+}
+
+
+
+/* ── Launch App button border radius ── */
+#navbar a[href="https://hyro.network"] {
+  border-radius: 4px !important;
+}
+
+/* ── Softer hover on path cards and stat cards (subtle primary tint) ── */
+#choose-your-path + div .card:hover {
+  border-color: rgba(218,168,228,0.3) !important;
+}
+#content > p + div .card:hover {
+  border-color: rgba(218,168,228,0.1) !important;
 }

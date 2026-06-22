@@ -1,0 +1,50 @@
+---
+title: "Vault Configuration"
+sidebarTitle: "Vault Configuration"
+description: "The parameters a manager controls at vault creation."
+---
+
+On approval, you configure your vault. Every parameter below is visible to LPs as part of the vault's on-chain metadata before they deposit.
+
+## Economics
+
+| Parameter | Value |
+|---|---|
+| Performance fee | Your choice, **10–30%** (HWM-protected, per-LP cost basis) |
+| Fee split | 90% manager / 5% protocol / 5% insurance (pre-Phase 3, insurance share rolls to protocol) |
+| Manager stake | 5% of expected initial TVL, locked 3 months, visible on-chain |
+| Initial TVL cap | $50K – $250K, sized to track-record strength |
+| TVL cap review | Quarterly, based on proven on-chain performance |
+
+## Risk controls
+
+| Parameter | Range | Default |
+|---|---|---|
+| Max-DD shutdown | 5% – 20% | 8% |
+| Max leverage | 1× – 20× | 10× |
+
+## LP-side parameters
+
+| Parameter | Default | Up to |
+|---|---|---|
+| Min LP deposit | $100 | $50,000 |
+| Lockup period | None | 30 days |
+| Cooldown before withdrawal | Optional 7 days | Configurable |
+| Weekly redemption cap | 20% of AUM | Configurable |
+| Early-exit penalty (during lockup) | 2% to insurance fund | 0% = no early exit |
+
+## Visibility & access
+
+| Parameter | Options | Default |
+|---|---|---|
+| Visibility mode | Public · Aggregate-only · Time-delayed 7 days | Aggregate-only |
+| Access mode | Public · Private (link-only) · Whitelist | Public |
+| Rebalancing mode | Auto-immediate · Scheduled 4h · Scheduled 24h | Auto-immediate |
+
+[How visibility modes work →](/lps/visibility-privacy)
+
+## AI-agent friendly
+
+<Tip>
+An autonomous trading agent can run a Direct Vault under the exact same configuration and constraints as a human manager. The SDK exposes every parameter above. [AI Agents SDK →](/builders/ai-agents)
+</Tip>

@@ -1,0 +1,46 @@
+---
+title: "Dynamic Position Rebalancing"
+sidebarTitle: "Dynamic Position Rebalancing"
+description: "How positions rescale atomically with capital changes to hold LP leverage constant."
+---
+
+When LP capital enters or exits a vault, position sizes must scale proportionally so existing LPs aren't exposed to changed leverage. This is the mechanic that distinguishes a proper LP-funded vault from a copy-trading platform.
+
+## The leverage drift problem
+
+<Warning>
+**Example.** A manager trades $400K notional on $1M AUM (0.4× exposure). An LP withdraws $500K → AUM is now $500K but the same $400K position remains → effective exposure jumps to 0.8×. Remaining LPs are suddenly at 2× the leverage they signed up for. This is a system error, not a feature.
+</Warning>
+
+The reverse also matters: if an LP deposits $500K, AUM rises to $1.5M but the same $400K position now represents only 0.27× — the new LP is under-invested versus what they expected.
+
+**Solution:** positions rebalance atomically with capital changes.
+
+## Rebalancing modes
+
+The manager picks the mode at vault creation:
+
+| Mode | Behavior | Best for |
+|---|---|---|
+| Auto-immediate (default) | Rebalance instantly on every LP entry/exit | Tight risk control, short-horizon strategies |
+| Scheduled 4h | Aggregate deposits/withdrawals; rebalance every 4 hours | Swing strategies, reduced execution friction |
+| Scheduled 24h | Rebalance daily at a fixed time | Long-horizon, low-frequency strategies |
+
+## Technical requirements
+
+<CardGroup cols={2}>
+  <Card title="Atomic" icon="lock">
+    Either all positions rescale or none — no partial rebalance.
+  </Card>
+  <Card title="Audited on-chain" icon="file-text">
+    Full audit log with timestamp, pre/post sizing, and NAV reference.
+  </Card>
+</CardGroup>
+
+<Note>
+**Failsafe.** If rebalancing fails (illiquid market, exchange downtime, partial fill), the vault pauses new deposits, the manager is alerted, and manual review is required before resuming.
+</Note>
+
+<Card title="LP deposits & withdrawals" icon="arrow-left-right" href="/lps/deposits-withdrawals" horizontal>
+  How capital enters and exits, with rebalancing in context.
+</Card>

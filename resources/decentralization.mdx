@@ -1,0 +1,54 @@
+---
+title: "Decentralization Status"
+sidebarTitle: "Decentralization Status"
+description: "What's on-chain today, what's planned, and exactly when it changes."
+---
+
+We tell you exactly what is centralized and exactly when it changes. This is the honest, layer-by-layer view.
+
+## Layer by layer
+
+| Layer | Today | Roadmap |
+|---|---|---|
+| Capital settlement | On-chain (Solana) | — |
+| Share accounting | On-chain | — |
+| LP deposits / withdrawals | On-chain | — |
+| Performance-fee logic | On-chain | — |
+| Challenge-fee collection | On-chain | — |
+| Payout records | On-chain (TXID each) | All future payouts on-chain by default |
+| NAV reporting | Hyro oracle + independent watchdog | Multi-signer (Phase 2); zkTLS proofs (long-term) |
+| Trader admission | HyroTrader's verified pipeline | Permissionless on-chain challenges (Phase 3) |
+| Execution venue | Bybit (real API, real order books) | Multi-CEX; Drift + Phoenix on-chain (Phase 4) |
+| Trading terminal | Bybit native + HyroTrader interface | HyroTrader proprietary terminal (in development) |
+| Operator wallet | Squads 3/5 multisig | DAO-controlled (Phase 4) |
+| Risk parameters | Hardcoded (mirror HyroTrader's rules) | DAO-governed (Phase 3) |
+| Governance | Multisig admin | $HYRO token governance (Phase 3) |
+
+## The staged approach
+
+<Steps>
+  <Step title="Stage 1 — today">
+    Decentralized capital, transparent on-chain settlement, programmatic rules.
+  </Step>
+  <Step title="Stage 2">
+    Permissionless trader onboarding.
+  </Step>
+  <Step title="Stage 3">
+    On-chain execution via Drift and Phoenix.
+  </Step>
+  <Step title="Stage 4">
+    Own execution stack via HyroTrader's proprietary terminal — removing all third-party dependencies.
+  </Step>
+</Steps>
+
+## On-chain execution roadmap (Phase 4)
+
+Direct integration with Solana DEXes enables Hyro vaults to execute entirely on-chain, removing CEX counterparty risk for the on-chain track:
+
+- **Drift Protocol** — Solana perpetuals DEX
+- **Phoenix** — Solana on-chain order book
+- Additional Solana perp DEXes as strategic partnerships
+
+<Card title="Trust assumptions" icon="shield-half" href="/resources/decentralization" horizontal>
+  The full disclosure of what LPs trust today.
+</Card>

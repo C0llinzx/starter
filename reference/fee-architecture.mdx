@@ -1,6 +1,6 @@
 ---
-title: "Fee Architecture"
-sidebarTitle: "Fee Architecture"
+title: "Fee Collection Mechanics"
+sidebarTitle: "Fee Collection Mechanics"
 description: "Buckets, the two-hop CPI, charge vs. claim, and the high-water mark."
 ---
 
@@ -30,7 +30,7 @@ Every fee splits into **LP, manager, protocol, performance** — each with its o
   <Card title="Charge" icon="pen">
     Called by the core on a fund op. Accrues into `unclaimed` and `total_collected`. **No tokens move.**
   </Card>
-  <Card title="Claim" icon="hand-holding-dollar">
+  <Card title="Claim" icon="hand-coins">
     `claim_fees(fee_type, amount)` requires `recipient == recipients.get_recipient(fee_type)` and `amount ≤ unclaimed`, then moves the amount from `unclaimed` to `total_claimed`. The core executes the SPL transfer signing as `vault_share_signer`.
   </Card>
 </Columns>
