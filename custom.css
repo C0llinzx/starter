@@ -17,10 +17,14 @@ body::before {
   pointer-events: none;
 }
 
-/* ── Body text size (16px) ── */
+/* ── Body text size (16px / 28px line height) ── */
 #content p, #content li, #content span:not(.sidebar-title) {
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 28px;
+}
+#content p[data-component-part="accordion-title"] {
+  line-height: 1.25;
+  margin-bottom: 0;
 }
 
 /* ── Vertical rhythm (text elements only — no container widths) ── */
