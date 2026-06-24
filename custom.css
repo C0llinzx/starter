@@ -4,16 +4,17 @@
 ::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(128,128,128,0.5); }
 
-/* ── Purple orb (top-left) ── */
+/* ── Subtle ambient glow at top of page ── */
 body::before {
   content: '';
-  position: fixed;
-  top: -300px; left: -300px;
-  width: 800px; height: 800px;
-  background: radial-gradient(circle, rgba(133,46,255,0.08) 0%, transparent 60%);
-  filter: blur(60px);
+  position: absolute;
+  top: -150px;
+  left: 50%;
+  width: 900px;
+  height: 500px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(133,46,255,0.08) 0%, transparent 75%);
   pointer-events: none;
-  z-index: 9999;
 }
 
 /* ── Body text size (16px) ── */
@@ -173,49 +174,6 @@ hr, [class*="divider"] {
   color: #F0B84C !important;
 }
 
-/* ── Pagination: individual bordered cards ── */
-#pagination a {
-  border: 1px solid #E5E7EB;
-  border-radius: 8px;
-  padding: 20px 24px;
-  flex-direction: column !important;
-  gap: 0 !important;
-}
-.dark #pagination a {
-  border-color: rgba(255,255,255,0.12);
-}
-#pagination a svg {
-  display: none !important;
-}
-#pagination a div {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-#pagination a:first-child {
-  align-items: flex-start !important;
-}
-#pagination a:first-child::before {
-  content: 'Previous';
-  font-size: 13px;
-  color: #6B7280;
-  margin-bottom: 4px;
-}
-.dark #pagination a:first-child::before {
-  color: rgba(255,255,255,0.5);
-}
-#pagination a:last-child {
-  align-items: flex-end !important;
-  text-align: right;
-}
-#pagination a:last-child::before {
-  content: 'Next';
-  font-size: 13px;
-  color: #6B7280;
-  margin-bottom: 4px;
-}
-.dark #pagination a:last-child::before {
-  color: rgba(255,255,255,0.5);
-}
 /* ── Home page: section headings 24px ── */
 #choose-your-path,
 #what-makes-it-different {
@@ -241,22 +199,8 @@ hr, [class*="divider"] {
   color: rgba(255,255,255,0.7);
 }
 
-/* ── Nav container flush with viewport edges ── */
-#navbar > div:first-child {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
 
-/* ── Sidebar 12px from viewport left edge ── */
-#sidebar {
-  left: 12px;
-}
-
-/* ── TOC 12px from viewport right edge ── */
-#content-side-layout {
-  position: fixed;
-  right: 12px;
-}
+/* ── Active TOC dot ── */
 #content-side-layout a[aria-current="true"]::before {
   content: '';
   display: inline-block;
@@ -268,16 +212,9 @@ hr, [class*="divider"] {
   vertical-align: middle;
 }
 
-/* ── Reduce outer content container width ── */
-.max-w-8xl.mx-auto.relative {
-  max-width: 80rem;
-}
-
-/* ── Center content to viewport, cap at 1200px ── */
+/* ── Center content to viewport ── */
 #content-container {
-  max-width: 1200px;
   margin: 0 auto;
-  margin-left: -88px;
 }
 
 /* ── Remove card backgrounds on home page sections (outline only) ── */
